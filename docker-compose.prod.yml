@@ -16,6 +16,12 @@ services:
 
   backend:
     build: ./back
+    command: sh -c "npm run build && npm run prod"
+    expose:
+      - 5000
+    environment:
+      - NODE_ENV=production
+      - SERVER_PORT=5000
     env_file:
       - .env.local
     volumes:
@@ -36,6 +42,8 @@ services:
     command: sh -c "npm run build"
     volumes:
       - web-frontend-build:/app/build
+    environment:
+      - NODE_ENV=production
     env_file: .env.local
     ports:
       - 3000:3000
