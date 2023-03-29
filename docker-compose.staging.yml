@@ -15,12 +15,13 @@ services:
       retries: 10
 
   backend:
-    build: ./back
+    # build: ./back
+    image: sttay/yeahbuddyback
     command: sh -c "npm run build && npm run prod"
     expose:
       - 5000
     environment:
-      - NODE_ENV=production
+      - NODE_ENV=staging
       - SERVER_PORT=5000
     env_file:
       - .env.local
@@ -38,12 +39,13 @@ services:
         condition: service_healthy
 
   frontend:
-    build: ./front
+    # build: ./front
+    image: sttay/yeahbuddyfront
     command: sh -c "npm run build"
     volumes:
       - web-frontend-build:/app/build
     environment:
-      - NODE_ENV=production
+      - NODE_ENV=staging
     env_file: .env.local
     ports:
       - 3000:3000
