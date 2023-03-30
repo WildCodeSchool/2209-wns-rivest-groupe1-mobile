@@ -39,6 +39,6 @@ jobs:
         name: Build and push
         with:
           context: ./back
-          file: ./back/staging.Dockerfile
+          file: ./back/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ secrets.DOCKER_HUB_SERVER_IMAGE_NAME }}:latest
