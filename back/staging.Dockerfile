@@ -17,4 +17,6 @@ COPY tsconfig.json tsconfig.json
 
 RUN npm run build
 
-CMD npm run prod
+RUN npm run prod
+
+EXPOSE 5000
