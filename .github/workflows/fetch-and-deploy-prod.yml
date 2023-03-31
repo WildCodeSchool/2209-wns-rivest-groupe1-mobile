@@ -1,0 +1,17 @@
+name: Trigger webhook to fetch latest images from Dockerhub
+
+on:
+  push:
+    branches:
+      - "main"
+
+  workflow_dispatch:
+
+jobs:
+  fetch_and_deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Webhook
+        uses: joelwmale/webhook-action@master
+        with:
+          url: ${{ secrets.WEBHOOK_URL }}
