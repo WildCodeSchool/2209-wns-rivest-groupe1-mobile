@@ -1,7 +1,6 @@
 // A VIRER
 const DragableItem = ({ id }: { id: string }) => {
   const handleDragStart = (e: React.DragEvent<HTMLDivElement>) => {
-    console.log('onDragStart');
     e.dataTransfer.setData('text', 'draggableItem');
   };
 
@@ -10,7 +9,7 @@ const DragableItem = ({ id }: { id: string }) => {
       id={id.toString() + 'caca'}
       draggable
       onDragStart={(e) => handleDragStart(e)}
-      className="h-40 w-40 bg-gray-700 mr-2"
+      className="w-40 h-40 mr-2 bg-gray-700"
     ></div>
   );
 };

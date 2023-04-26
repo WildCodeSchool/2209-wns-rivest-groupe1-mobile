@@ -59,10 +59,8 @@ export const ImageScreen = () => {
     },
     fetchPolicy: "network-only",
     onCompleted(data) {
-      console.log(data.getOne.images);
       const res = data.getOne.images;
       setImagesURI(res);
-      console.log("res", res);
     },
 
     onError(error) {
@@ -129,8 +127,6 @@ export const ImageScreen = () => {
                   formData.append("signature", signature);
                   formData.append("api_key", apiKey);
                   formData.append("timestamp", timestamp.toString());
-                  console.log(item.id);
-                  console.log(signature);
 
                   fetch(url, {
                     method: "POST",

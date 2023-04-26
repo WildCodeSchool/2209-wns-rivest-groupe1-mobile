@@ -47,7 +47,6 @@ const CREATE_USER = gql`
 type registerScreenprop = DrawerNavigationProp<RootMenuParamList, "Feed">;
 const storeData = async (key: string, value: string) => {
   await SecureStore.setItemAsync(key, value);
-  console.log(value);
 };
 
 export const Register = () => {
@@ -68,10 +67,8 @@ export const Register = () => {
 
     onCompleted(data) {
       const res = JSON.parse(data.getToken);
-      // console.log(res);
       setLocalUser({ ...res.user });
       storeData("token", res.token);
-      // console.log("data", data);
       navigation.navigate("Feed"); //WIP
     },
     onError(error) {

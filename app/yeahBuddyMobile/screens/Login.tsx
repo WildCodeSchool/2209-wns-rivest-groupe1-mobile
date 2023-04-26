@@ -35,7 +35,6 @@ export const Login = () => {
       const res = JSON.parse(data.getToken);
       setLocalUser({ ...res.user });
       storeData("token", res.token);
-      console.log("data", data);
       (navigation as any).navigate("Feed");
     },
     onError(error) {
