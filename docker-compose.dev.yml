@@ -53,20 +53,20 @@ services:
     depends_on:
       db:
         condition: service_healthy
-  nginx:
-    image: nginx:1.21.3
-    depends_on:
-      - db
-      - backend
-      - frontend
-      - adminer
-    restart: always
-    ports:
-      - ${GATEWAY_PORT:-8000}:80
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
-      - web-client-build:/web-client-build
-      - ./logs:/var/log/nginx
+  # nginx:
+  #   image: nginx:1.21.3
+  #   depends_on:
+  #     - db
+  #     - backend
+  #     - frontend
+  #     - adminer
+  #   restart: always
+  #   ports:
+  #     - ${GATEWAY_PORT:-8000}:80
+  #   volumes:
+  #     - ./nginx.conf:/etc/nginx/nginx.conf
+  #     - web-client-build:/web-client-build
+  #     - ./logs:/var/log/nginx
 
 volumes:
   postgres:

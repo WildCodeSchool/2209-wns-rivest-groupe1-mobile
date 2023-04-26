@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { AiOutlinePlus } from 'react-icons/ai';
 import idGenerator from '../../utils/idGenerator';
 import { getToolIconProperties } from '../../utils/ToolIconProperties';
+import { useArticleBuilder } from '../../contexts/ArticleBuilderContext';
 
 interface ICell {
   id: string;
@@ -18,6 +19,8 @@ const CellsContainer = ({
   const [cells, setCells] = useState<ICell[]>([]);
   const [onDropZone, setOnDropZone] = useState<boolean>(false);
   const [id, setId] = useState<string>('');
+
+  const { setSelectedElement } = useArticleBuilder();
 
   const createCells = () => {
     const _id = idGenerator();
@@ -36,7 +39,6 @@ const CellsContainer = ({
       }
       return e;
     });
-    console.log(_cells);
     setCells(_cells);
   };
 
@@ -49,7 +51,6 @@ const CellsContainer = ({
   };
 
   const handleDrop = (e: React.DragEvent<HTMLDivElement>, cellId: string) => {
-    console.log('onDrop');
     setOnDropZone(false);
     const elementType = e.dataTransfer.getData('text');
     replaceCellByElement(cellId, getToolIconProperties(elementType.toUpperCase()).content);
@@ -57,7 +58,7 @@ const CellsContainer = ({
 
   return (
     <div className="p-1 border border-black" id={cellsContainerId}>
-      <div className="w-full flex gap-x-5">
+      <div className="flex w-full gap-x-5">
         {cells.map((el, idx) => (
           <div
             style={{
@@ -66,10 +67,11 @@ const CellsContainer = ({
             }}
             key={idGenerator()}
             id={idx.toString()}
-            className="w-full"
+            className="w-full cursor-pointer"
             onDragLeave={() => setOnDropZone(false)}
             onDragOver={(e) => handleDragOver(e)}
             onDrop={(e) => handleDrop(e, el.id)}
+            onClick={() => setSelectedElement(el)}
           >
             {el.cell}
           </div>
@@ -83,9 +85,9 @@ const Cell = ({ id }: { id: string }) => {
   return (
     <div
       id={id}
-      className="h-7 w-full border border-dashed border-neutral-400 flex justify-center items-center"
+      className="flex items-center justify-center w-full border border-dashed h-7 border-neutral-400"
     >
-      <AiOutlinePlus className="text-neutral-400 rounded-full" />
+      <AiOutlinePlus className="rounded-full text-neutral-400" />
     </div>
   );
 };
