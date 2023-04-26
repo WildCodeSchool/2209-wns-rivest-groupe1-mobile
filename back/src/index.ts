@@ -65,6 +65,10 @@ const start = async (): Promise<void> => {
         }
       }
     },
+    cors: {
+      origin: ["http://localhost:3000", "https://studio.apollographql.com"],
+      credentials: true,
+    },
   });
 
   try {
