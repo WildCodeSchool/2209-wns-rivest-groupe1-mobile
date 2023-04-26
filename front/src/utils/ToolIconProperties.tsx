@@ -25,8 +25,9 @@ export const getToolIconProperties = (tool: string): ToolIconProperties => {
               event.dataTransfer.setData('text', event.currentTarget.id);
               event.dataTransfer.effectAllowed = 'copyMove';
             }}
+            data-type="button"
           >
-            <button className="bg-yeahbuddy p-2 rounded text-white my-2">BOUTON</button>
+            <button className="p-2 my-2 text-white rounded bg-yeahbuddy">BOUTON</button>
           </div>
         ),
 
@@ -45,6 +46,7 @@ export const getToolIconProperties = (tool: string): ToolIconProperties => {
             fill="currentColor"
             className="bi bi-emoji-sunglasses-fill"
             viewBox="0 0 16 16"
+            data-type="icon"
           >
             <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zM2.31 5.243A1 1 0 0 1 3.28 4H6a1 1 0 0 1 1 1v.116A4.22 4.22 0 0 1 8 5c.35 0 .69.04 1 .116V5a1 1 0 0 1 1-1h2.72a1 1 0 0 1 .97 1.243l-.311 1.242A2 2 0 0 1 11.439 8H11a2 2 0 0 1-1.994-1.839A2.99 2.99 0 0 0 8 6c-.393 0-.74.064-1.006.161A2 2 0 0 1 5 8h-.438a2 2 0 0 1-1.94-1.515L2.31 5.243zM4.969 9.75A3.498 3.498 0 0 0 8 11.5a3.498 3.498 0 0 0 3.032-1.75.5.5 0 1 1 .866.5A4.498 4.498 0 0 1 8 12.5a4.498 4.498 0 0 1-3.898-2.25.5.5 0 0 1 .866-.5z" />
           </svg>
@@ -58,7 +60,7 @@ export const getToolIconProperties = (tool: string): ToolIconProperties => {
         name: 'Image',
         title: 'Image',
         type: 'image',
-        content: <img src="https://picsum.photos/500" alt="osef" />,
+        content: <img data-type="img" src="https://picsum.photos/500" alt="osef" />,
         style: 'marker',
         position: [10, 10],
       };
@@ -73,6 +75,7 @@ export const getToolIconProperties = (tool: string): ToolIconProperties => {
             onDragStart={(event: React.DragEvent<HTMLDivElement>) => {
               event.dataTransfer.setData('text', event.currentTarget.id);
             }}
+            data-type="title"
           >
             Ceci est un titre
           </div>
@@ -87,7 +90,7 @@ export const getToolIconProperties = (tool: string): ToolIconProperties => {
         title: 'Paragraphe',
         type: 'paragraph',
         content: (
-          <p>
+          <p data-type="paragraph">
             Lorem ipsum dolor, sit amet consectetur adipisicing elit. Inventore ab voluptatibus
             aliquid distinctio tempora voluptates consequatur, ratione aut similique, blanditiis
             numquam doloribus, culpa voluptate eos. Aperiam ipsum sint qui earum! Assumenda
@@ -111,7 +114,7 @@ export const getToolIconProperties = (tool: string): ToolIconProperties => {
       return {
         name: 'ArrowsCollapse',
         title: 'Séparateur',
-        content: <div>________________________________</div>,
+        content: <div data-type="separator">________________________________</div>,
         type: 'separator',
         style: 'circle',
         position: [12, 12],
@@ -129,6 +132,7 @@ export const getToolIconProperties = (tool: string): ToolIconProperties => {
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowFullScreen
+            data-type="video"
           ></iframe>
         ),
         type: 'video',
@@ -139,7 +143,11 @@ export const getToolIconProperties = (tool: string): ToolIconProperties => {
       return {
         name: 'CardText',
         title: 'Section',
-        content: <div>UNE SECTION INTERNE QUI EST À L'INTÉRIEUR DE LA CAROTTE SOUS LE FRIGO</div>,
+        content: (
+          <div data-type="section">
+            UNE SECTION INTERNE QUI EST À L'INTÉRIEUR DE LA CAROTTE SOUS LE FRIGO
+          </div>
+        ),
         type: 'section',
         style: 'square',
       };
@@ -147,7 +155,7 @@ export const getToolIconProperties = (tool: string): ToolIconProperties => {
       return {
         name: 'Fonts',
         title: 'Texte',
-        content: <div>UN TEXTE</div>,
+        content: <div data-type="text">UN TEXTE</div>,
         type: 'text',
         // style: 'fonts',
         // position: [16, 16],

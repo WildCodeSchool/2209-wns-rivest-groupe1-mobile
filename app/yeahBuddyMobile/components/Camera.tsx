@@ -32,7 +32,6 @@ export const CameraComponent = () => {
   const [addImage] = useMutation(ADD_IMAGE, {
     variables: { email: currentuserEmail, imageUrl: imageUrl },
   });
-  console.log("USERRRRRRRRRRRRRR", currentUser);
 
   const toggleCameraType = () => {
     setCameraType(
@@ -41,16 +40,12 @@ export const CameraComponent = () => {
   };
 
   const takePicture = async () => {
-    console.log("test");
-
     if (!cameraRef.current) {
-      console.log("no current");
     } else {
       const options = { quality: 0.7, base64: true };
       const photo = await cameraRef.current?.takePictureAsync(options);
 
       if (!photo) {
-        console.log("no photo");
       }
       const base64Img = `data:image/jpg;base64,${photo.base64}`;
       const data = { file: base64Img, upload_preset: "yeahbuddy" };
@@ -66,9 +61,6 @@ export const CameraComponent = () => {
         if (result.secure_url) {
           const newImage: string = result.public_id;
           setImageUrl(newImage);
-          console.log("userrrrrrr", currentUser);
-
-          console.log("resultttttttttttttttt", result.public_id);
 
           addImage();
           alert("good");

@@ -33,12 +33,11 @@ interface SimpleToolPickerProps {
 }
 
 export const SimpleToolPicker = (props: SimpleToolPickerProps) => {
-  console.log('props.availableTools.length :', props.availableTools.length);
   const [cursor, setCursor] = useState<string>('pointer');
 
   return (
     <div
-      className={'container'}
+      className="container overflow-y-scroll shadow-inner h-[35vh] bg-black/30"
       style={{
         maxWidth: props.maxWidth,
         position: 'relative',
@@ -56,7 +55,7 @@ export const SimpleToolPicker = (props: SimpleToolPickerProps) => {
         return (
           <ToolButton
             key={'edit' + i}
-            className="bg-yeahbuddy p-2 text-lightweight shadow-md rounded "
+            className="p-2 rounded shadow-md bg-yeahbuddy text-lightweight "
             style={{ cursor: cursor }}
             icon={
               <BaseIcon
@@ -69,7 +68,6 @@ export const SimpleToolPicker = (props: SimpleToolPickerProps) => {
             onClick={() => {
               props.onToolSelected(t);
               setCursor('grab');
-              console.log(t);
             }}
             onDragStart={props.onDragStart}
           />

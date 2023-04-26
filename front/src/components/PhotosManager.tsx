@@ -57,7 +57,6 @@ const PhotosManager = ({ email }: { email: string }) => {
         img.resize(fill().width(150).height(150));
         return { id: p.id, photo: img };
       });
-    console.log(_photos);
     setPhotos(_photos);
   };
 
@@ -90,9 +89,9 @@ const PhotosManager = ({ email }: { email: string }) => {
   return (
     <div className="flex flex-col">
       <div className="">
-        <h1 className="text-center text-3xl text-ronniecolman underline">Photos Manager</h1>
+        <h1 className="text-3xl text-center underline text-ronniecolman">Photos Manager</h1>
         <button
-          className="bg-yeahbuddy p-2 rounded text-white my-5"
+          className="p-2 my-5 text-white rounded bg-yeahbuddy"
           onClick={() => uploadWidget.open()}
         >
           Upload a Photo
@@ -102,10 +101,10 @@ const PhotosManager = ({ email }: { email: string }) => {
             photos.map((p) => (
               <div className="relative" key={p.id}>
                 <div
-                  className="absolute top-1 right-1 cursor-pointer bg-red-600 rounded-full p-1"
+                  className="absolute p-1 bg-red-600 rounded-full cursor-pointer top-1 right-1"
                   onClick={() => handleDeletePhoto(p.id)}
                 >
-                  <ImCross className="h-2 w-2 text-white" />
+                  <ImCross className="w-2 h-2 text-white" />
                 </div>
 
                 <AdvancedImage cldImg={p.photo} />
