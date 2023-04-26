@@ -76,6 +76,7 @@ export const getToolIconProperties = (tool: string): ToolIconProperties => {
               event.dataTransfer.setData('text', event.currentTarget.id);
             }}
             data-type="title"
+            className="text-red-500"
           >
             Ceci est un titre
           </div>
