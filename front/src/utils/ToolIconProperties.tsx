@@ -27,7 +27,17 @@ export const getToolIconProperties = (tool: string): ToolIconProperties => {
             }}
             data-type="button"
           >
-            <button className="p-2 my-2 text-white rounded bg-yeahbuddy">BOUTON</button>
+            <button
+              style={{
+                padding: '8px',
+                margin: '8px',
+                color: 'white',
+                borderRadius: '4px',
+                backgroundColor: '#000000',
+              }}
+            >
+              BOUTON
+            </button>
           </div>
         ),
 
