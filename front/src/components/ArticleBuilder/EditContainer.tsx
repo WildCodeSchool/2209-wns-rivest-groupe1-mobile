@@ -8,9 +8,9 @@ interface IEditContainer {
 
 export const EditContainer = ({ selectedElement }: IEditContainer) => {
   const editTools = useMemo(() => {
-    switch (selectedElement.cell.props['data-type']) {
+    switch (selectedElement.cell.props.dataType) {
       case 'button':
-        return <ButtonEditor />;
+        return <ButtonEditor dataElement={selectedElement.cell.props} />;
       case 'icon':
         return <div>icon</div>;
       case 'img':
