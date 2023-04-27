@@ -9,7 +9,7 @@ interface SideDrawerProps {
   onToolSelected: (tool: any) => void;
 }
 const SideDrawer = (props: SideDrawerProps) => {
-  const [selectedTool, setSelectedTool] = useState<SelectedTool>(SelectedTool.LABEL);
+  const [selectedTool, setSelectedTool] = useState<SelectedTool>(SelectedTool.TITLE);
   const [elementType, setElementType] = useState<string>('');
   const onDragStart = (event: React.DragEvent<HTMLDivElement>) => {
     event.dataTransfer.setData('text', elementType);

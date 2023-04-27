@@ -5,7 +5,7 @@ import { ToolButton } from './ToolButton';
 
 export enum SelectedTool {
   // NONE = 'NONE',
-  LABEL = 'LABEL',
+  TITLE = 'TITLE',
   SEPARATOR = 'SEPARATOR',
   PARAGRAPH = 'PARAGRAPH',
   IMAGE = 'IMAGE',

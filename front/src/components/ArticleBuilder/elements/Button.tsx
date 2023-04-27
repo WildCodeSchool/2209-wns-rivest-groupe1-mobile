@@ -1,6 +1,6 @@
 interface IButton {
-  title: string;
-  dataType?: 'button';
+  dataType: 'button';
+  title?: string;
   backgroundColor?: string;
   fontSize?: string;
   fontColor?: string;
@@ -14,7 +14,6 @@ interface IButton {
 
 const Button = ({
   title,
-  dataType = 'button',
   backgroundColor = '#cc987a',
   fontSize = '20px',
   fontColor = '#ffffff',
@@ -33,7 +32,6 @@ const Button = ({
         event.dataTransfer.setData('text', event.currentTarget.id);
         event.dataTransfer.effectAllowed = 'copyMove';
       }}
-      data-type="button"
     >
       <button
         style={{
