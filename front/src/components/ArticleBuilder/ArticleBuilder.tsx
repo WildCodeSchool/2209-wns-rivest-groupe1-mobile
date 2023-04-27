@@ -6,7 +6,7 @@ import SideDrawer from './SideDrawer';
 
 const ArticleBuilder = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [selectedTool, setSelectedTool] = useState<SelectedTool>(SelectedTool.LABEL);
+  const [selectedTool, setSelectedTool] = useState<SelectedTool>(SelectedTool.TITLE);
 
   const _handleSelectedTool = (tool: SelectedTool) => {
     setSelectedTool(tool);

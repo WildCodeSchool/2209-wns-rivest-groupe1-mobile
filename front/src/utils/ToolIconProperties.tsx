@@ -1,4 +1,7 @@
 import Button from '../components/ArticleBuilder/elements/Button';
+import Icon from '../components/ArticleBuilder/elements/Icon';
+import Image from '../components/ArticleBuilder/elements/Image';
+import Title from '../components/ArticleBuilder/elements/Title';
 import { SelectedTool } from '../components/SimpleToolPicker';
 import * as icons from 'react-bootstrap-icons';
 
@@ -18,58 +21,28 @@ export const getToolIconProperties = (tool: string): ToolIconProperties => {
         name: 'PlusSquareFill',
         title: 'Bouton',
         type: 'button',
-        content: <Button title="Button" dataType="button" />,
+        content: <Button dataType="button" />,
       };
     case SelectedTool.ICON:
       return {
         name: 'EmojiSmileFill',
         title: 'Icone',
-        content: (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="60"
-            height="60"
-            fill="currentColor"
-            className="bi bi-emoji-sunglasses-fill"
-            viewBox="0 0 16 16"
-            data-type="icon"
-          >
-            <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zM2.31 5.243A1 1 0 0 1 3.28 4H6a1 1 0 0 1 1 1v.116A4.22 4.22 0 0 1 8 5c.35 0 .69.04 1 .116V5a1 1 0 0 1 1-1h2.72a1 1 0 0 1 .97 1.243l-.311 1.242A2 2 0 0 1 11.439 8H11a2 2 0 0 1-1.994-1.839A2.99 2.99 0 0 0 8 6c-.393 0-.74.064-1.006.161A2 2 0 0 1 5 8h-.438a2 2 0 0 1-1.94-1.515L2.31 5.243zM4.969 9.75A3.498 3.498 0 0 0 8 11.5a3.498 3.498 0 0 0 3.032-1.75.5.5 0 1 1 .866.5A4.498 4.498 0 0 1 8 12.5a4.498 4.498 0 0 1-3.898-2.25.5.5 0 0 1 .866-.5z" />
-          </svg>
-        ),
         type: 'icon',
-        // style: 'pencil',
-        // position: [0, 24],
+        content: <Icon dataType="icon" />,
       };
     case SelectedTool.IMAGE:
       return {
         name: 'Image',
         title: 'Image',
         type: 'image',
-        content: <img data-type="img" src="https://picsum.photos/500" alt="osef" />,
-        style: 'marker',
-        position: [10, 10],
+        content: <Image dataType="img" />,
       };
-    case SelectedTool.LABEL:
+    case SelectedTool.TITLE:
       return {
         name: 'Bookmark',
         title: 'Titre',
-        content: (
-          <div
-            id="l1"
-            draggable="true"
-            onDragStart={(event: React.DragEvent<HTMLDivElement>) => {
-              event.dataTransfer.setData('text', event.currentTarget.id);
-            }}
-            data-type="title"
-            className="text-red-500"
-          >
-            Ceci est un titre
-          </div>
-        ),
-        type: 'label',
-        // style: 'brush',
-        // position: [0, 24],
+        type: 'title',
+        content: <Title dataType="title" />,
       };
     case SelectedTool.PARAGRAPH:
       return {
