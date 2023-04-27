@@ -22,7 +22,7 @@ const start = async (): Promise<void> => {
   const schema = await buildSchema({
     resolvers: [
       UserResolver,
-      AdminResolver,
+      // AdminResolver,
       ImageResolver,
       CategoryResolver,
       BlogResolver,
@@ -31,6 +31,7 @@ const start = async (): Promise<void> => {
       TagResolver,
     ],
     authChecker: ({ context }, roles) => {
+
       // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
 
       if (!context.user === undefined) {
