@@ -22,7 +22,7 @@ const start = async (): Promise<void> => {
   const schema = await buildSchema({
     resolvers: [
       UserResolver,
-      AdminResolver,
+      // AdminResolver,
       ImageResolver,
       CategoryResolver,
       BlogResolver,

@@ -44,47 +44,6 @@ export class AdminResolver {
     }
   }
 
-  //   @Authorized()
-  //   @Query(() => User)
-  //   async getOneUser(@Arg("email") email: string): Promise<User> {
-  //     try {
-  //       const userFromDB = await dataSource.manager.findOneOrFail(User, {
-  //         where: { email },
-  //         relations: {
-  //           images: true,
-  //           blog: {
-  //             articles: true,
-  //             category: true,
-  //           },
-  //         },
-  //       });
-  //       const userDetail = {
-  //         id: userFromDB.id,
-  //         pseudo: userFromDB.pseudo,
-  //         email: userFromDB.email,
-  //       };
-  //       console.log("=>>>>>userFROMDB", userDetail);
-
-  //       return userFromDB;
-  //     } catch (err) {
-  //       console.log(err);
-  //       throw new Error("Invalid query");
-  //     }
-  //   }
-
-  @Authorized()
-  @Query(() => [User])
-  async getAllUsers(): Promise<User[]> {
-    return await dataSource.manager.find(User, {
-      relations: {
-        blog: {
-          articles: true,
-          category: true,
-        },
-      },
-    });
-  }
-
   @Authorized()
   @Mutation(() => Admin)
   async createAdmin(
@@ -115,6 +74,46 @@ export class AdminResolver {
     console.log("ADMIN SAVED:", adminFromDB);
 
     return adminFromDB;
+  }
+
+  @Authorized()
+  @Query(() => User)
+  async adminGetOneUser(@Arg("email") email: string): Promise<User> {
+    try {
+      const userFromDB = await dataSource.manager.findOneOrFail(User, {
+        where: { email },
+        relations: {
+          images: true,
+          blog: {
+            articles: true,
+            category: true,
+          },
+        },
+      });
+      const userDetail = {
+        id: userFromDB.id,
+        pseudo: userFromDB.pseudo,
+        email: userFromDB.email,
+      };
+
+      return userFromDB;
+    } catch (err) {
+      console.log(err);
+      throw new Error("Invalid query");
+    }
+  }
+
+  @Authorized()
+  @Query(() => [User])
+  async getAllUsers(): Promise<User[]> {
+    return await dataSource.manager.find(User, {
+      relations: {
+        blog: {
+          articles: true,
+          category: true,
+        },
+      },
+    });
   }
 
   @Authorized()
