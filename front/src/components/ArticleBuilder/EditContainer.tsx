@@ -1,16 +1,16 @@
 import { useMemo } from 'react';
-import { ArticleBuilderContext } from '../../contexts/ArticleBuilderContext';
 import ButtonEditor from './editorTools/ButtonEditor';
+import { ICurrentEditingElement } from '../../contexts/NewArticleBuilderContext';
 
 interface IEditContainer {
-  selectedElement: ArticleBuilderContext['selectedElement'];
+  currentEditingElement: ICurrentEditingElement;
 }
 
-export const EditContainer = ({ selectedElement }: IEditContainer) => {
+export const EditContainer = ({ currentEditingElement }: IEditContainer) => {
   const editTools = useMemo(() => {
-    switch (selectedElement.cell.props.dataType) {
+    switch (currentEditingElement.element?.props.dataType) {
       case 'button':
-        return <ButtonEditor dataElement={selectedElement.cell.props} />;
+        return <ButtonEditor />;
       case 'icon':
         return <div>icon</div>;
       case 'img':
@@ -31,11 +31,7 @@ export const EditContainer = ({ selectedElement }: IEditContainer) => {
         break;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedElement.id]);
+  }, [currentEditingElement.cellId]);
 
-  return (
-    <div className="overflow-y-scroll shadow-inner h-[35vh] bg-black/30">
-      <pre>{editTools}</pre>
-    </div>
-  );
+  return <div className="overflow-y-scroll shadow-inner h-[35vh] bg-black/30">{editTools}</div>;
 };

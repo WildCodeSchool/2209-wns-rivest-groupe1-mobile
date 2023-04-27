@@ -3,7 +3,7 @@ import { getToolIconProperties } from '../../utils/ToolIconProperties';
 import { Label } from '../Label';
 import { SelectedTool, SimpleToolPicker } from '../SimpleToolPicker';
 import { EditContainer } from './EditContainer';
-import { useArticleBuilder } from '../../contexts/ArticleBuilderContext';
+import { useNewArticleBuilder } from '../../contexts/NewArticleBuilderContext';
 interface SideDrawerProps {
   showControls?: boolean;
   onToolSelected: (tool: any) => void;
@@ -14,7 +14,7 @@ const SideDrawer = (props: SideDrawerProps) => {
   const onDragStart = (event: React.DragEvent<HTMLDivElement>) => {
     event.dataTransfer.setData('text', elementType);
   };
-  const { selectedElement } = useArticleBuilder();
+  const { currentEditingElement } = useNewArticleBuilder();
   return (
     <aside className="sticky w-1/4 bg-mediumweight">
       <Label className="p-2 text-xl font-semibold text-center text-white">ÉLÉMENTS</Label>
@@ -29,7 +29,9 @@ const SideDrawer = (props: SideDrawerProps) => {
         onDragStart={onDragStart}
       />
       <Label className="p-2 text-xl font-semibold text-center text-white">ÉDIT</Label>
-      {selectedElement.cell && <EditContainer selectedElement={selectedElement} />}
+      {currentEditingElement.element && (
+        <EditContainer currentEditingElement={currentEditingElement} />
+      )}
     </aside>
   );
 };

@@ -1,0 +1,44 @@
+{
+  "page": {
+    "sectionId0": {
+      "cellsContainerId": {
+        "cellId": {
+          "element": {
+            "id": "123-456-789",
+            "content": "<SomeComponent />"
+          }
+        }
+      }
+    },
+    "sectionId1": {
+      "cellsContainerId": {
+        "cellId": {
+          "element": {
+            "id": "123-456-789",
+            "content": "<SomeComponent />"
+          }
+        }
+      }
+    },
+    "sectionId2": {
+      "cellsContainerId": {
+        "cellId": {
+          "element": {
+            "id": "123-456-789",
+            "content": "<SomeComponent />"
+          }
+        }
+      }
+    },
+    "sectionId3": {
+      "cellsContainerId": {
+        "cellId": {
+          "element": {
+            "id": "123-456-789",
+            "content": "<SomeComponent />"
+          }
+        }
+      }
+    }
+  }
+}
