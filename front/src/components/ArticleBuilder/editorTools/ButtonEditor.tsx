@@ -1,13 +1,9 @@
 import { useEffect, useState } from 'react';
 import Button from '../elements/Button';
-import { useArticleBuilder } from '../../../contexts/ArticleBuilderContext';
+import { useNewArticleBuilder } from '../../../contexts/NewArticleBuilderContext';
 
-interface IButtonEditor {
-  dataElement: any;
-}
-
-const ButtonEditor = ({ dataElement }: IButtonEditor) => {
-  const { setModifyingElement, setBnf } = useArticleBuilder();
+const ButtonEditor = () => {
+  const { handleElement, currentEditingElement } = useNewArticleBuilder();
   const [textButton, setTextButton] = useState('Button');
   const [bgColor, setBgColor] = useState('#cc987a');
   const [fontSize, setFontSize] = useState('20');
@@ -20,7 +16,9 @@ const ButtonEditor = ({ dataElement }: IButtonEditor) => {
   const [borderRadius, setBorderRadius] = useState('0');
 
   useEffect(() => {
-    setModifyingElement(
+    handleElement(
+      currentEditingElement.sectionId as string,
+      currentEditingElement.cellId as string,
       <Button
         title={textButton}
         backgroundColor={bgColor}
@@ -32,9 +30,9 @@ const ButtonEditor = ({ dataElement }: IButtonEditor) => {
         borderWidth={`${borderWidth}px`}
         borderColor={borderColor}
         borderRadius={`${borderRadius}px`}
+        dataType="button"
       />,
     );
-    setBnf((state) => !state);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     textButton,

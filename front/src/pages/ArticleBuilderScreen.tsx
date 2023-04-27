@@ -1,11 +1,11 @@
 import ArticleBuilder from '../components/ArticleBuilder/ArticleBuilder';
-import { ArticleBuilderProvider } from '../contexts/ArticleBuilderContext';
+import { NewArticleBuilderProvider } from '../contexts/NewArticleBuilderContext';
 
 const ArticleBuilderScreen = () => {
   return (
-    <ArticleBuilderProvider>
+    <NewArticleBuilderProvider>
       <ArticleBuilder />
-    </ArticleBuilderProvider>
+    </NewArticleBuilderProvider>
   );
 };
 
