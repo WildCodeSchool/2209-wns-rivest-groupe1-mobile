@@ -31,8 +31,7 @@ const start = async (): Promise<void> => {
       TagResolver,
     ],
     authChecker: ({ context }, roles) => {
-      // console.log("roles in decorator", roles);
-      // console.log("=======>", context.user);
+
       // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
 
       if (!context.user === undefined) {
@@ -55,13 +54,10 @@ const start = async (): Promise<void> => {
       } else {
         try {
           const bearer = req.headers.authorization.split("Bearer ")[1];
-          console.log("bearer", bearer);
 
           if (bearer) {
             const token = JSON.parse(bearer).token;
-            console.log("token", token);
             const user = jwt.verify(token, process.env.JWT_SECRET_KEY);
-            console.log("USER", user);
             return { user };
           } else {
             return {};

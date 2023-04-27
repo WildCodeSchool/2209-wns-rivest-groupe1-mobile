@@ -80,8 +80,6 @@ export class UserResolver {
           },
         },
       });
-
-      console.log("=>>>>>USERFROMDB", userFromDB);
       return userFromDB;
     } catch (err) {
       console.log(err);
@@ -129,7 +127,6 @@ export class UserResolver {
 
     //make sure relations (blog, images) are sent as well?
     const userFromDB = await dataSource.manager.save(User, newUser);
-    console.log("USER SAVED:", userFromDB);
 
     return userFromDB;
   }

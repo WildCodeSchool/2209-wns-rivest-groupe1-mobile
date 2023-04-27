@@ -2,11 +2,7 @@ import { useEffect, useState } from 'react';
 import { AiOutlinePlus } from 'react-icons/ai';
 import idGenerator from '../../utils/idGenerator';
 import { getToolIconProperties } from '../../utils/ToolIconProperties';
-
-interface ICell {
-  id: string;
-  cell: JSX.Element;
-}
+import { ICell, useArticleBuilder } from '../../contexts/ArticleBuilderContext';
 
 const CellsContainer = ({
   nbCell,
@@ -18,6 +14,8 @@ const CellsContainer = ({
   const [cells, setCells] = useState<ICell[]>([]);
   const [onDropZone, setOnDropZone] = useState<boolean>(false);
   const [id, setId] = useState<string>('');
+  const { selectedElement, setSelectedElement, modifyingElement, replaceCellByElement, bnf } =
+    useArticleBuilder();
 
   const createCells = () => {
     const _id = idGenerator();
@@ -29,16 +27,12 @@ const CellsContainer = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const replaceCellByElement = (cellId: string, element: JSX.Element) => {
-    const _cells = cells.map((e) => {
-      if (e.id === cellId) {
-        e.cell = element;
-      }
-      return e;
-    });
-    console.log(_cells);
-    setCells(_cells);
-  };
+  useEffect(() => {
+    if (selectedElement.id && modifyingElement) {
+      replaceCellByElement(selectedElement.id, cells, modifyingElement, setCells);
+    }
+    console.log('ici');
+  }, [bnf]);
 
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -49,15 +43,19 @@ const CellsContainer = ({
   };
 
   const handleDrop = (e: React.DragEvent<HTMLDivElement>, cellId: string) => {
-    console.log('onDrop');
     setOnDropZone(false);
     const elementType = e.dataTransfer.getData('text');
-    replaceCellByElement(cellId, getToolIconProperties(elementType.toUpperCase()).content);
+    replaceCellByElement(
+      cellId,
+      cells,
+      getToolIconProperties(elementType.toUpperCase()).content,
+      setCells,
+    );
   };
 
   return (
     <div className="p-1 border border-black" id={cellsContainerId}>
-      <div className="w-full flex gap-x-5">
+      <div className="flex w-full gap-x-5">
         {cells.map((el, idx) => (
           <div
             style={{
@@ -66,10 +64,11 @@ const CellsContainer = ({
             }}
             key={idGenerator()}
             id={idx.toString()}
-            className="w-full"
+            className="w-full cursor-pointer"
             onDragLeave={() => setOnDropZone(false)}
             onDragOver={(e) => handleDragOver(e)}
             onDrop={(e) => handleDrop(e, el.id)}
+            onClick={() => setSelectedElement(el)}
           >
             {el.cell}
           </div>
@@ -79,13 +78,13 @@ const CellsContainer = ({
   );
 };
 
-const Cell = ({ id }: { id: string }) => {
+export const Cell = ({ id }: { id: string }) => {
   return (
     <div
       id={id}
-      className="h-7 w-full border border-dashed border-neutral-400 flex justify-center items-center"
+      className="flex items-center justify-center w-full border border-dashed h-7 border-neutral-400"
     >
-      <AiOutlinePlus className="text-neutral-400 rounded-full" />
+      <AiOutlinePlus className="rounded-full text-neutral-400" />
     </div>
   );
 };
