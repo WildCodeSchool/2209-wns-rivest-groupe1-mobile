@@ -11,6 +11,7 @@ import { BlogResolver } from "./resolver/blogResolver";
 import { ArticleResolver } from "./resolver/articleResolver";
 import { CommentResolver } from "./resolver/commentResolver";
 import { TagResolver } from "./resolver/tagResolver";
+import { AdminResolver } from "./resolver/adminResolver";
 
 dotenv.config();
 
@@ -21,6 +22,7 @@ const start = async (): Promise<void> => {
   const schema = await buildSchema({
     resolvers: [
       UserResolver,
+      AdminResolver,
       ImageResolver,
       CategoryResolver,
       BlogResolver,

@@ -159,14 +159,14 @@ export class UserResolver {
     }
   }
 
-  @Authorized()
-  @Mutation(() => String)
-  async deleteUser(@Arg("id") id: number): Promise<String> {
-    try {
-      await dataSource.manager.delete(User, id);
-      return "Deleted user successfully";
-    } catch (error: any) {
-      throw new Error("Failed to delete user");
-    }
-  }
+  // @Authorized()
+  // @Mutation(() => String)
+  // async deleteUser(@Arg("id") id: number): Promise<String> {
+  //   try {
+  //     await dataSource.manager.delete(User, id);
+  //     return "Deleted user successfully";
+  //   } catch (error: any) {
+  //     throw new Error("Failed to delete user");
+  //   }
+  // }
 }
