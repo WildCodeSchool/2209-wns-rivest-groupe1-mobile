@@ -2,12 +2,7 @@ import { useEffect, useState } from 'react';
 import { AiOutlinePlus } from 'react-icons/ai';
 import idGenerator from '../../utils/idGenerator';
 import { getToolIconProperties } from '../../utils/ToolIconProperties';
-import { useArticleBuilder } from '../../contexts/ArticleBuilderContext';
-
-interface ICell {
-  id: string;
-  cell: JSX.Element;
-}
+import { ICell, useArticleBuilder } from '../../contexts/ArticleBuilderContext';
 
 const CellsContainer = ({
   nbCell,
@@ -19,8 +14,8 @@ const CellsContainer = ({
   const [cells, setCells] = useState<ICell[]>([]);
   const [onDropZone, setOnDropZone] = useState<boolean>(false);
   const [id, setId] = useState<string>('');
-
-  const { setSelectedElement } = useArticleBuilder();
+  const { selectedElement, setSelectedElement, modifyingElement, replaceCellByElement, bnf } =
+    useArticleBuilder();
 
   const createCells = () => {
     const _id = idGenerator();
@@ -32,15 +27,12 @@ const CellsContainer = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const replaceCellByElement = (cellId: string, element: JSX.Element) => {
-    const _cells = cells.map((e) => {
-      if (e.id === cellId) {
-        e.cell = element;
-      }
-      return e;
-    });
-    setCells(_cells);
-  };
+  useEffect(() => {
+    if (selectedElement.id && modifyingElement) {
+      replaceCellByElement(selectedElement.id, cells, modifyingElement, setCells);
+    }
+    console.log('ici');
+  }, [bnf]);
 
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -53,7 +45,12 @@ const CellsContainer = ({
   const handleDrop = (e: React.DragEvent<HTMLDivElement>, cellId: string) => {
     setOnDropZone(false);
     const elementType = e.dataTransfer.getData('text');
-    replaceCellByElement(cellId, getToolIconProperties(elementType.toUpperCase()).content);
+    replaceCellByElement(
+      cellId,
+      cells,
+      getToolIconProperties(elementType.toUpperCase()).content,
+      setCells,
+    );
   };
 
   return (
@@ -81,7 +78,7 @@ const CellsContainer = ({
   );
 };
 
-const Cell = ({ id }: { id: string }) => {
+export const Cell = ({ id }: { id: string }) => {
   return (
     <div
       id={id}
