@@ -69,6 +69,7 @@ export class AdminResolver {
     newAdmin.pseudo = pseudo;
     newAdmin.hashedPassword = await argon2.hash(password);
     newAdmin.role = "ADMIN";
+    // console.log(newAdmin);
 
     const adminFromDB = await dataSource.manager.save(User, newAdmin);
     console.log("ADMIN SAVED:", adminFromDB);
