@@ -16,14 +16,6 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-// const createCategory = gql`
-//   mutation Mutation($label: String!) {
-//     createCategory(label: $label) {
-//       label
-//     }
-//   }
-// `;
-
 const CREATE_USER = gql`
   mutation Mutation(
     $password: String!
@@ -50,20 +42,6 @@ const randomEmail =
   "user" + Math.floor(Math.random() * 100).toString() + "@mail.com";
 
 describe("User resolver", () => {
-  // it("create category", async () => {
-  //   const res = await client.mutate({
-  //     mutation: createCategory,
-  //     variables: {
-  //       label: "diverse",
-  //     },
-  //   });
-
-  //   expect(res.data?.createCategory).toEqual({
-  //     __typename: "Category",
-  //     label: "diverse",
-  //   });
-  // });
-
   it("create user", async () => {
     const res = await client.mutate({
       mutation: CREATE_USER,
@@ -71,8 +49,8 @@ describe("User resolver", () => {
         email: randomEmail,
         password: "test",
         pseudo: "pseudo",
-        avatar: "sdfhkqjloqsl",
-        description: "jkfdhqsjklfhqlkfh",
+        avatar: "avatar TEST BACKEND",
+        description: "description TEST BACKEND",
       },
     });
 
@@ -80,8 +58,8 @@ describe("User resolver", () => {
       __typename: "User",
       email: randomEmail,
       pseudo: "pseudo",
-      avatar: "sdfhkqjloqsl",
-      description: "jkfdhqsjklfhqlkfh",
+      avatar: "avatar TEST BACKEND",
+      description: "description TEST BACKEND",
     });
   });
 
@@ -98,8 +76,8 @@ describe("User resolver", () => {
         email: randomEmail,
         password: "test",
         pseudo: "pseudo",
-        avatar: "sdfhkqjloqsl",
-        description: "jkfdhqsjklfhqlkfh",
+        avatar: "avatar TEST BACKEND",
+        description: "description TEST BACKEND",
       },
       fetchPolicy: "no-cache",
     });
@@ -134,8 +112,8 @@ describe("User resolver", () => {
       __typename: "User",
       email: randomEmail,
       pseudo: "pseudo",
-      avatar: "sdfhkqjloqsl",
-      description: "jkfdhqsjklfhqlkfh",
+      avatar: "avatar TEST BACKEND",
+      description: "description TEST BACKEND",
     });
   });
 });
