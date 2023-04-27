@@ -1,20 +1,68 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import Button from '../elements/Button';
+import { useArticleBuilder } from '../../../contexts/ArticleBuilderContext';
 
-const ButtonEditor = () => {
-  const [bgColor, setBgColor] = useState('#000000');
-  const [fontSize, setFontSize] = useState('10');
-  const [fontColor, setFontColor] = useState('#000000');
+interface IButtonEditor {
+  dataElement: any;
+}
+
+const ButtonEditor = ({ dataElement }: IButtonEditor) => {
+  const { setModifyingElement, setBnf } = useArticleBuilder();
+  const [textButton, setTextButton] = useState('Button');
+  const [bgColor, setBgColor] = useState('#cc987a');
+  const [fontSize, setFontSize] = useState('20');
+  const [fontColor, setFontColor] = useState('#ffffff');
   const [fontWeight, setFontWeight] = useState('100');
-  const [padding, setPadding] = useState('0');
+  const [padding, setPadding] = useState('10');
   const [margin, setMargin] = useState('0');
   const [borderWidth, setBorderWidth] = useState('0');
-  const [borderColor, setBorderColor] = useState('#000000');
-  const [borderRadius, setBorderRadius] = useState('');
+  const [borderColor, setBorderColor] = useState('#ffffff');
+  const [borderRadius, setBorderRadius] = useState('0');
+
+  useEffect(() => {
+    setModifyingElement(
+      <Button
+        title={textButton}
+        backgroundColor={bgColor}
+        fontSize={`${fontSize}px`}
+        fontColor={fontColor}
+        fontWeight={fontWeight}
+        padding={`${padding}px`}
+        margin={`${margin}px`}
+        borderWidth={`${borderWidth}px`}
+        borderColor={borderColor}
+        borderRadius={`${borderRadius}px`}
+      />,
+    );
+    setBnf((state) => !state);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    textButton,
+    bgColor,
+    fontSize,
+    fontColor,
+    fontWeight,
+    padding,
+    margin,
+    borderWidth,
+    borderColor,
+    borderRadius,
+  ]);
 
   return (
     <div className="m-3">
-      {/* BACKGROUND COLOR */}
       <div>
+        <input
+          id="text-button"
+          name="text-button"
+          type="text"
+          onChange={(e) => setTextButton(e.target.value)}
+          value={textButton}
+        />
+        <label htmlFor="text-button">{textButton}</label>
+      </div>
+      {/* BACKGROUND COLOR */}
+      <div className="mt-5">
         <input
           type="color"
           id="bg-color"

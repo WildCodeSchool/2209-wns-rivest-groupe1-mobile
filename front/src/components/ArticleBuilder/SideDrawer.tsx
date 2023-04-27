@@ -29,7 +29,7 @@ const SideDrawer = (props: SideDrawerProps) => {
         onDragStart={onDragStart}
       />
       <Label className="p-2 text-xl font-semibold text-center text-white">ÉDIT</Label>
-      <EditContainer selectedElement={selectedElement} />
+      {selectedElement.cell && <EditContainer selectedElement={selectedElement} />}
     </aside>
   );
 };
