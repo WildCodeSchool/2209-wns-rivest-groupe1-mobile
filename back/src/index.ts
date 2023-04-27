@@ -3,7 +3,7 @@ import * as dotenv from "dotenv";
 import jwt from "jsonwebtoken";
 import { ApolloServer } from "apollo-server";
 import { buildSchema } from "type-graphql";
-import { UserResolver } from "./resolver/userResolver";
+import { UserResolver, permissions } from "./resolver/userResolver";
 import dataSource from "./utils";
 import { ImageResolver } from "./resolver/imageResolver";
 import { CategoryResolver } from "./resolver/categoryResolver";
@@ -11,6 +11,7 @@ import { BlogResolver } from "./resolver/blogResolver";
 import { ArticleResolver } from "./resolver/articleResolver";
 import { CommentResolver } from "./resolver/commentResolver";
 import { TagResolver } from "./resolver/tagResolver";
+import { applyMiddleware } from "graphql-middleware";
 
 dotenv.config();
 
@@ -41,7 +42,8 @@ const start = async (): Promise<void> => {
     },
   });
   const server = new ApolloServer({
-    schema,
+    schema: applyMiddleware(schema, permissions),
+    // schema,
     context: ({ req }) => {
       if (
         req.headers.authorization === undefined ||
@@ -69,6 +71,7 @@ const start = async (): Promise<void> => {
       origin: ["http://localhost:3000", "https://studio.apollographql.com"],
       credentials: true,
     },
+    // plugins: [permissions],
   });
 
   try {

@@ -9,12 +9,31 @@ import {
   Resolver,
   Authorized,
 } from "type-graphql";
+import dataSource from "../utils";
+import { shield, rule } from "graphql-shield";
+import Joi from "joi";
+
 import { Category } from "../entity/category";
 import { Blog } from "../entity/blog";
-
 import { User } from "../entity/user";
-import dataSource from "../utils";
 
+@InputType({ description: "create new user" })
+class CreateUserInput implements Partial<User> {
+  @Field()
+  email: string;
+
+  @Field()
+  password: string;
+
+  @Field()
+  pseudo: string;
+
+  @Field({ nullable: true })
+  description?: string;
+
+  @Field({ nullable: true })
+  avatar?: string;
+}
 @InputType({ description: "update user data" })
 class UpdateUserInput implements Partial<User> {
   @Field({ nullable: true })
@@ -90,12 +109,10 @@ export class UserResolver {
   @Authorized()
   @Mutation(() => User)
   async createUser(
-    @Arg("email") email: string,
-    @Arg("password") password: string,
-    @Arg("pseudo") pseudo: string,
-    @Arg("description", { nullable: true }) description?: string,
-    @Arg("avatar", { nullable: true }) avatar?: string
+    @Arg("data") createUserParams: CreateUserInput
   ): Promise<User> {
+    // console.log("inside mutation");
+    const { email, pseudo, avatar, password, description } = createUserParams;
     let defaultCategory = await dataSource.manager.findOne(Category, {
       where: {
         label: "diverse",
@@ -167,3 +184,36 @@ export class UserResolver {
     }
   }
 }
+
+const signUpInputSchema = Joi.object({
+  pseudo: Joi.string().alphanum().min(3).max(30).required(),
+  email: Joi.string().email().required(),
+  password: Joi.string().min(6).max(30).required(),
+  description: Joi.string(),
+  avatar: Joi.string(),
+});
+
+const signUpRule = rule({ cache: "contextual" })(
+  async (
+    parent,
+    { data }: { data: CreateUserInput },
+    context
+  ): Promise<boolean> => {
+    const { error } = signUpInputSchema.validate(data, { abortEarly: false });
+
+    if (error) {
+      console.log("ERROR", error);
+      const errors = error.details.map((detail) => detail.message);
+      context.validationErrors = errors;
+      return false;
+    }
+
+    return true;
+  }
+);
+
+export const permissions = shield({
+  Mutation: {
+    createUser: signUpRule,
+  },
+});
