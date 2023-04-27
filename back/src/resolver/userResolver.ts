@@ -159,6 +159,38 @@ export class UserResolver {
     }
   }
 
+  @Authorized()
+  @Mutation(() => User)
+  async createAdmin(
+    @Arg("email") email: string,
+    @Arg("password") password: string,
+    @Arg("pseudo") pseudo: string
+  ): Promise<User> {
+    let defaultCategory = await dataSource.manager.findOne(Category, {
+      where: {
+        label: "diverse",
+      },
+    });
+
+    if (!defaultCategory) {
+      const newCategory = new Category();
+      newCategory.label = "diverse";
+
+      defaultCategory = await dataSource.manager.save(newCategory);
+    }
+
+    const newAdmin = new User();
+    newAdmin.email = email;
+    newAdmin.pseudo = pseudo;
+    newAdmin.hashedPassword = await argon2.hash(password);
+    newAdmin.role = "ADMIN";
+
+    const adminFromDB = await dataSource.manager.save(User, newAdmin);
+    console.log("ADMIN SAVED:", adminFromDB);
+
+    return adminFromDB;
+  }
+
   // @Authorized()
   // @Mutation(() => String)
   // async deleteUser(@Arg("id") id: number): Promise<String> {
