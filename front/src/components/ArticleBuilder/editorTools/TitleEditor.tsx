@@ -1,31 +1,42 @@
-import { useEffect, useState } from 'react';
-import Button from '../elements/Button';
-import { useNewArticleBuilder } from '../../../contexts/NewArticleBuilderContext';
+import { useEffect, useMemo, useState } from 'react';
 import { AiOutlineAlignCenter, AiOutlineAlignLeft, AiOutlineAlignRight } from 'react-icons/ai';
+import { useNewArticleBuilder } from '../../../contexts/NewArticleBuilderContext';
+import Title from '../elements/Title';
 
-const ButtonEditor = () => {
+const TitleEditor = () => {
   const { handleElement, currentEditingElement, setCurrentEditingElement } = useNewArticleBuilder();
 
-  console.log('in the button editor', currentEditingElement);
+  console.log(currentEditingElement);
 
-  const [textButton, setTextButton] = useState(currentEditingElement.element?.props.title);
-  const [bgColor, setBgColor] = useState(currentEditingElement.element?.props.backgroundColor);
-  const [fontSize, setFontSize] = useState(
+  const [level, setLevel] = useState<1 | 2 | 3 | 4 | 5 | 6>(
+    currentEditingElement.element?.props.level,
+  );
+  const [text, setText] = useState<string>(currentEditingElement.element?.props.text);
+  const [backgroundColor, setBackgroundColor] = useState<string>(
+    currentEditingElement.element?.props.backgroundColor,
+  );
+  const [fontSize, setFontSize] = useState<string>(
     currentEditingElement.element?.props.fontSize.replace(/\D+/g, ''),
   );
-  const [fontColor, setFontColor] = useState(currentEditingElement.element?.props.fontColor);
-  const [fontWeight, setFontWeight] = useState(currentEditingElement.element?.props.fontWeight);
-  const [padding, setPadding] = useState(
+  const [fontColor, setFontColor] = useState<string>(
+    currentEditingElement.element?.props.fontColor,
+  );
+  const [fontWeight, setFontWeight] = useState<string>(
+    currentEditingElement.element?.props.fontWeight,
+  );
+  const [padding, setPadding] = useState<string>(
     currentEditingElement.element?.props.padding.replace(/\D+/g, ''),
   );
-  const [margin, setMargin] = useState(
+  const [margin, setMargin] = useState<string>(
     currentEditingElement.element?.props.margin.replace(/\D+/g, ''),
   );
-  const [borderWidth, setBorderWidth] = useState(
+  const [borderWidth, setBorderWidth] = useState<string>(
     currentEditingElement.element?.props.borderWidth.replace(/\D+/g, ''),
   );
-  const [borderColor, setBorderColor] = useState(currentEditingElement.element?.props.borderColor);
-  const [borderRadius, setBorderRadius] = useState(
+  const [borderColor, setBorderColor] = useState<string>(
+    currentEditingElement.element?.props.borderColor,
+  );
+  const [borderRadius, setBorderRadius] = useState<string>(
     currentEditingElement.element?.props.borderRadius.replace(/\D+/g, ''),
   );
   const [alignment, setAlignment] = useState<'start' | 'center' | 'end'>(
@@ -33,8 +44,9 @@ const ButtonEditor = () => {
   );
 
   useEffect(() => {
-    setTextButton(currentEditingElement.element?.props.title);
-    setBgColor(currentEditingElement.element?.props.backgroundColor);
+    setLevel(currentEditingElement.element?.props.level);
+    setText(currentEditingElement.element?.props.text);
+    setBackgroundColor(currentEditingElement.element?.props.backgroundColor);
     setFontSize(currentEditingElement.element?.props.fontSize.replace(/\D+/g, ''));
     setFontColor(currentEditingElement.element?.props.fontColor);
     setFontWeight(currentEditingElement.element?.props.fontWeight);
@@ -52,9 +64,11 @@ const ButtonEditor = () => {
       sectionId: currentEditingElement.sectionId as string,
       cellId: currentEditingElement.cellId as string,
       element: (
-        <Button
-          title={textButton}
-          backgroundColor={bgColor}
+        <Title
+          dataType="title"
+          level={level}
+          text={text}
+          backgroundColor={backgroundColor}
           fontSize={`${fontSize}px`}
           fontColor={fontColor}
           fontWeight={fontWeight}
@@ -64,16 +78,17 @@ const ButtonEditor = () => {
           borderColor={borderColor}
           borderRadius={`${borderRadius}px`}
           alignment={alignment}
-          dataType="button"
         />
       ),
     });
     handleElement(
       currentEditingElement.sectionId as string,
       currentEditingElement.cellId as string,
-      <Button
-        title={textButton}
-        backgroundColor={bgColor}
+      <Title
+        dataType="title"
+        level={level}
+        text={text}
+        backgroundColor={backgroundColor}
         fontSize={`${fontSize}px`}
         fontColor={fontColor}
         fontWeight={fontWeight}
@@ -83,13 +98,13 @@ const ButtonEditor = () => {
         borderColor={borderColor}
         borderRadius={`${borderRadius}px`}
         alignment={alignment}
-        dataType="button"
       />,
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
-    textButton,
-    bgColor,
+    level,
+    text,
+    backgroundColor,
     fontSize,
     fontColor,
     fontWeight,
@@ -101,35 +116,40 @@ const ButtonEditor = () => {
     alignment,
   ]);
 
+  const levels = useMemo(() => [1, 2, 3, 4, 5, 6], []);
+
   return (
     <div className="flex flex-col m-10 gap-y-5">
+      {/* LEVELS */}
+      <div className="flex flex-col p-3 border border-white rounded shadow-md">
+        <label htmlFor="levels" className="text-xl text-white">
+          Level
+        </label>
+        <select
+          name="levels"
+          id="levels"
+          onChange={(e) => setLevel(parseInt(e.target.value) as levels)}
+        >
+          {levels.map((level) => (
+            <option key={level} value={level}>
+              {level}
+            </option>
+          ))}
+        </select>
+      </div>
       {/* TEXT */}
       <div className="flex flex-col p-3 border border-white rounded shadow-md">
-        <label htmlFor="text-button" className="text-xl text-white">
+        <label htmlFor="text-title" className="text-xl text-white">
           Text
         </label>
         <input
-          id="text-button"
-          name="text-button"
+          id="text-title"
+          name="text-title"
           type="text"
-          onChange={(e) => setTextButton(e.target.value)}
-          value={textButton}
+          onChange={(e) => setText(e.target.value)}
+          value={text}
         />
       </div>
-      {/* BACKGROUND COLOR */}
-      <div className="flex flex-col p-3 border border-white rounded shadow-md">
-        <label htmlFor="bg-color" className="text-xl text-white">
-          Background color
-        </label>
-        <input
-          type="color"
-          id="bg-color"
-          name="bg-color"
-          value={bgColor}
-          onChange={(e) => setBgColor(e.target.value)}
-        />
-      </div>
-
       {/* FONT SIZE */}
       <div className="flex flex-col p-3 border border-white rounded shadow-md">
         <label htmlFor="font-size" className="text-xl text-white">
@@ -145,7 +165,6 @@ const ButtonEditor = () => {
           onChange={(e) => setFontSize(e.target.value)}
         />
       </div>
-
       {/* FONT COLOR */}
       <div className="flex flex-col p-3 border border-white rounded shadow-md">
         <label htmlFor="font-color" className="text-xl text-white">
@@ -276,4 +295,6 @@ const ButtonEditor = () => {
   );
 };
 
-export default ButtonEditor;
+export default TitleEditor;
+
+type levels = 1 | 2 | 3 | 4 | 5 | 6;

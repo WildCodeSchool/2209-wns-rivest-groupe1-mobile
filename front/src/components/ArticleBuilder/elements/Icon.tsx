@@ -13,9 +13,10 @@ import {
   AiFillInstagram,
   AiFillLinkedin,
   AiFillGithub,
+  AiFillSmile,
 } from 'react-icons/ai';
 
-type iconName =
+export type iconName =
   | 'CheckCircle'
   | 'CheckSquare'
   | 'CloseCircle'
@@ -28,20 +29,21 @@ type iconName =
   | 'Heart'
   | 'Instagram'
   | 'Linkedin'
-  | 'Github';
+  | 'Github'
+  | 'Smile';
 
 interface IIcon {
   dataType: 'icon';
-  icon?: iconName;
-  color?: string;
-  width?: string;
-  height?: string;
-  backgroundColor?: string;
+  icon: iconName;
+  color: string;
+  size: string;
+  backgroundColor: string;
+  alignment: 'start' | 'center' | 'end';
 }
 
-const Icon = ({ icon = 'CheckCircle', color, width, height, backgroundColor }: IIcon) => {
+const Icon = ({ icon, color, size, backgroundColor, alignment }: IIcon) => {
   const iconComponent = useMemo(() => {
-    const componentStyle = { color, width, height, backgroundColor };
+    const componentStyle = { color, width: size, height: size, backgroundColor };
 
     switch (icon) {
       case 'CheckCircle':
@@ -70,13 +72,19 @@ const Icon = ({ icon = 'CheckCircle', color, width, height, backgroundColor }: I
         return <AiFillLinkedin style={componentStyle} />;
       case 'Github':
         return <AiFillGithub style={componentStyle} />;
+      case 'Smile':
+        return <AiFillSmile style={componentStyle} />;
       default:
         break;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [icon, color, width, height, backgroundColor]);
+  }, [icon, color, size, backgroundColor, alignment]);
 
-  return <>{iconComponent}</>;
+  return (
+    <>
+      <div style={{ display: 'flex', justifyContent: alignment }}>{iconComponent}</div>
+    </>
+  );
 };
 
 export default Icon;
