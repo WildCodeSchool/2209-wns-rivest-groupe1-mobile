@@ -1,5 +1,5 @@
 import { useContext, useMemo, useState } from 'react';
-import userContext, { useUser } from '../contexts/UserContext';
+import userContext from '../contexts/UserContext';
 import { User } from '../model/models';
 import Dashboard from './Dashboard';
 import PhotosManager from './PhotosManager';
@@ -78,7 +78,7 @@ export const Userprofile = (props: UserProfileProps) => {
           />
         </div>
         {/* Right screen */}
-        <div className="flex flex-col p-5 w-full">{selectedComponent}</div>
+        <div className="flex flex-col w-full p-5">{selectedComponent}</div>
       </div>
     </>
   );

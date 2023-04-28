@@ -6,8 +6,6 @@ import Title from '../elements/Title';
 const TitleEditor = () => {
   const { handleElement, currentEditingElement, setCurrentEditingElement } = useNewArticleBuilder();
 
-  console.log(currentEditingElement);
-
   const [level, setLevel] = useState<1 | 2 | 3 | 4 | 5 | 6>(
     currentEditingElement.element?.props.level,
   );

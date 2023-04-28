@@ -149,44 +149,44 @@ export interface ICell {
   element: JSX.Element;
 }
 
-const truc: ISectionContainer[] = [
-  {
-    section: {
-      id: '123',
-      cellsContainer: {
-        id: 'qwe',
-        cells: [
-          { id: '543', element: <div></div> },
-          { id: '543', element: <div></div> },
-        ],
-      },
-    },
-  },
-  {
-    section: {
-      id: '123',
-      cellsContainer: {
-        id: 'qwe',
-        cells: [
-          { id: '543', element: <div></div> },
-          { id: '543', element: <div></div> },
-        ],
-      },
-    },
-  },
-  {
-    section: {
-      id: '123',
-      cellsContainer: {
-        id: 'qwe',
-        cells: [
-          { id: '543', element: <div></div> },
-          { id: '543', element: <div></div> },
-        ],
-      },
-    },
-  },
-];
+// const truc: ISectionContainer[] = [
+//   {
+//     section: {
+//       id: '123',
+//       cellsContainer: {
+//         id: 'qwe',
+//         cells: [
+//           { id: '543', element: <div></div> },
+//           { id: '543', element: <div></div> },
+//         ],
+//       },
+//     },
+//   },
+//   {
+//     section: {
+//       id: '123',
+//       cellsContainer: {
+//         id: 'qwe',
+//         cells: [
+//           { id: '543', element: <div></div> },
+//           { id: '543', element: <div></div> },
+//         ],
+//       },
+//     },
+//   },
+//   {
+//     section: {
+//       id: '123',
+//       cellsContainer: {
+//         id: 'qwe',
+//         cells: [
+//           { id: '543', element: <div></div> },
+//           { id: '543', element: <div></div> },
+//         ],
+//       },
+//     },
+//   },
+// ];
 
 // const func = () => {
 //     return (
