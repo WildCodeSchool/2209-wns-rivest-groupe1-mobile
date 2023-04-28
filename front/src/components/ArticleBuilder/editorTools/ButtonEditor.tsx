@@ -6,8 +6,6 @@ import { AiOutlineAlignCenter, AiOutlineAlignLeft, AiOutlineAlignRight } from 'r
 const ButtonEditor = () => {
   const { handleElement, currentEditingElement, setCurrentEditingElement } = useNewArticleBuilder();
 
-  console.log('in the button editor', currentEditingElement);
-
   const [textButton, setTextButton] = useState(currentEditingElement.element?.props.title);
   const [bgColor, setBgColor] = useState(currentEditingElement.element?.props.backgroundColor);
   const [fontSize, setFontSize] = useState(
