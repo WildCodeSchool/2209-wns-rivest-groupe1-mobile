@@ -1,23 +1,26 @@
 import { useMemo } from 'react';
 
+export type levels = 1 | 2 | 3 | 4 | 5 | 6;
+
 interface ITitle {
   dataType: 'title';
-  level?: 1 | 2 | 3 | 4 | 5 | 6;
-  text?: string;
-  backgroundColor?: string;
-  fontSize?: string;
-  fontColor?: string;
-  fontWeight?: string;
-  padding?: string;
-  margin?: string;
-  borderWidth?: string;
-  borderColor?: string;
-  borderRadius?: string;
+  level: levels;
+  text: string;
+  backgroundColor: string;
+  fontSize: string;
+  fontColor: string;
+  fontWeight: string;
+  padding: string;
+  margin: string;
+  borderWidth: string;
+  borderColor: string;
+  borderRadius: string;
+  alignment: 'start' | 'center' | 'end';
 }
 
 const Title = ({
-  level = 1,
-  text = 'Title',
+  level,
+  text,
   backgroundColor,
   borderColor,
   borderRadius,
@@ -27,6 +30,7 @@ const Title = ({
   fontWeight,
   margin,
   padding,
+  alignment,
 }: ITitle) => {
   const title = useMemo(() => {
     const componentStyle = {
@@ -77,6 +81,7 @@ const Title = ({
       onDragStart={(event: React.DragEvent<HTMLDivElement>) => {
         event.dataTransfer.setData('text', event.currentTarget.id);
       }}
+      style={{ display: 'flex', justifyContent: alignment }}
     >
       {title}
     </div>

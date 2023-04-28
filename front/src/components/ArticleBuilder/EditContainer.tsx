@@ -1,24 +1,33 @@
 import { useMemo } from 'react';
 import ButtonEditor from './editorTools/ButtonEditor';
-import { ICurrentEditingElement } from '../../contexts/NewArticleBuilderContext';
+import IconEditor from './editorTools/IconEditor';
+import {
+  ICurrentEditingElement,
+  useNewArticleBuilder,
+} from '../../contexts/NewArticleBuilderContext';
+import ImageEditor from './editorTools/ImageEditor';
+import TitleEditor from './editorTools/TitleEditor';
+import ParagraphEditor from './editorTools/ParagraphEditor';
 
 interface IEditContainer {
   currentEditingElement: ICurrentEditingElement;
 }
 
 export const EditContainer = ({ currentEditingElement }: IEditContainer) => {
+  const { currentEditingElement: current } = useNewArticleBuilder();
+
   const editTools = useMemo(() => {
     switch (currentEditingElement.element?.props.dataType) {
       case 'button':
         return <ButtonEditor />;
       case 'icon':
-        return <div>icon</div>;
+        return <IconEditor />;
       case 'img':
-        return <div>img</div>;
+        return <ImageEditor />;
       case 'title':
-        return <div>title</div>;
+        return <TitleEditor />;
       case 'paragraph':
-        return <div>paragraph</div>;
+        return <ParagraphEditor />;
       case 'separator':
         return <div>separator</div>;
       case 'video':
@@ -31,7 +40,7 @@ export const EditContainer = ({ currentEditingElement }: IEditContainer) => {
         break;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentEditingElement.cellId]);
+  }, [currentEditingElement.cellId, current.cellId]);
 
   return <div className="overflow-y-scroll shadow-inner h-[35vh] bg-black/30">{editTools}</div>;
 };

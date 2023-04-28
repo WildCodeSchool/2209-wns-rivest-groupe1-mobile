@@ -1,28 +1,30 @@
 interface IButton {
   dataType: 'button';
-  title?: string;
-  backgroundColor?: string;
-  fontSize?: string;
-  fontColor?: string;
-  fontWeight?: string;
-  padding?: string;
-  margin?: string;
-  borderWidth?: string;
-  borderColor?: string;
-  borderRadius?: string;
+  title: string;
+  backgroundColor: string;
+  fontSize: string;
+  fontColor: string;
+  fontWeight: string;
+  padding: string;
+  margin: string;
+  borderWidth: string;
+  borderColor: string;
+  borderRadius: string;
+  alignment: 'start' | 'center' | 'end';
 }
 
 const Button = ({
   title,
-  backgroundColor = '#cc987a',
-  fontSize = '20px',
-  fontColor = '#ffffff',
-  fontWeight = '100',
-  padding = '10px',
-  margin = '0px',
-  borderWidth = '0px',
-  borderColor = 'none',
-  borderRadius = '0px',
+  backgroundColor,
+  fontSize,
+  fontColor,
+  fontWeight,
+  padding,
+  margin,
+  borderWidth,
+  borderColor,
+  borderRadius,
+  alignment,
 }: IButton) => {
   return (
     <div
@@ -32,6 +34,7 @@ const Button = ({
         event.dataTransfer.setData('text', event.currentTarget.id);
         event.dataTransfer.effectAllowed = 'copyMove';
       }}
+      style={{ display: 'flex', justifyContent: alignment }}
     >
       <button
         style={{

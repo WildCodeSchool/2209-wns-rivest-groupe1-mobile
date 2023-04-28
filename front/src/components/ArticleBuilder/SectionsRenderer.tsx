@@ -35,13 +35,13 @@ const SectionsRenderer = () => {
                 }}
                 onDragOver={(e) => handleDragOver(e, cell.id, setDraggingOverCellId)}
                 onDragLeave={() => setDraggingOverCellId('')}
-                onClick={() =>
+                onClick={() => {
                   setCurrentEditingElement({
                     sectionId: sectionContainer.section.id,
                     cellId: cell.id,
                     element: cell.element,
-                  })
-                }
+                  });
+                }}
               >
                 {cell.element}
               </div>

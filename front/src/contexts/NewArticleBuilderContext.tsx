@@ -30,7 +30,6 @@ export function NewArticleBuilderProvider({ children }: { children: React.ReactN
   };
 
   const handleElement = (sectionId: string, cellId: string, element: JSX.Element) => {
-    console.log(element);
     const updatedCells = page
       // Je récupère la section qui contient la cellule a changer
       .filter((sectionContainer) => sectionContainer.section.id === sectionId)[0]

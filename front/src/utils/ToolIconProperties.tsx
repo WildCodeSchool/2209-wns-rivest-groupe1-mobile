@@ -1,6 +1,7 @@
 import Button from '../components/ArticleBuilder/elements/Button';
 import Icon from '../components/ArticleBuilder/elements/Icon';
 import Image from '../components/ArticleBuilder/elements/Image';
+import Paragraph from '../components/ArticleBuilder/elements/Paragraph';
 import Title from '../components/ArticleBuilder/elements/Title';
 import { SelectedTool } from '../components/SimpleToolPicker';
 import * as icons from 'react-bootstrap-icons';
@@ -21,28 +22,75 @@ export const getToolIconProperties = (tool: string): ToolIconProperties => {
         name: 'PlusSquareFill',
         title: 'Bouton',
         type: 'button',
-        content: <Button dataType="button" />,
+        content: (
+          <Button
+            dataType="button"
+            title="Button"
+            backgroundColor="#cc987a"
+            fontSize="20px"
+            fontColor="#ffffff"
+            fontWeight="100"
+            padding="10px"
+            margin="0px"
+            borderWidth="0px"
+            borderColor="#ffffff"
+            borderRadius="0px"
+            alignment="start"
+          />
+        ),
       };
     case SelectedTool.ICON:
       return {
         name: 'EmojiSmileFill',
         title: 'Icone',
         type: 'icon',
-        content: <Icon dataType="icon" />,
+        content: (
+          <Icon
+            dataType="icon"
+            icon="CheckCircle"
+            color="#000000"
+            size="40px"
+            backgroundColor="#ffffff"
+            alignment="start"
+          />
+        ),
       };
     case SelectedTool.IMAGE:
       return {
         name: 'Image',
         title: 'Image',
         type: 'image',
-        content: <Image dataType="img" />,
+        content: (
+          <Image
+            dataType="img"
+            src="https://placehold.co/400x400/111211/cc987a/png"
+            alt="placeholder"
+            alignment="start"
+          />
+        ),
       };
     case SelectedTool.TITLE:
       return {
         name: 'Bookmark',
         title: 'Titre',
         type: 'title',
-        content: <Title dataType="title" />,
+        content: (
+          <Title
+            dataType="title"
+            level={1}
+            text="Title"
+            backgroundColor="#ffffff"
+            borderColor="#ffffff"
+            borderRadius="0px"
+            borderWidth="0px"
+            fontColor="#000000"
+            fontSize="30px"
+            fontWeight="800"
+            margin="0px"
+            padding="0px"
+            alignment="start"
+          />
+        ),
       };
     case SelectedTool.PARAGRAPH:
       return {
@@ -50,11 +98,12 @@ export const getToolIconProperties = (tool: string): ToolIconProperties => {
         title: 'Paragraphe',
         type: 'paragraph',
         content: (
-          <p data-type="paragraph">
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Inventore ab voluptatibus
-            aliquid distinctio tempora voluptates consequatur, ratione aut similique, blanditiis
-            numquam doloribus, culpa voluptate eos. Aperiam ipsum sint qui earum! Assumenda
-          </p>
+          <Paragraph
+            dataType="paragraph"
+            text="Lorem ipsum dolor sit amet consectetur, adipisicing elit. Veritatis eos dicta facere voluptate nostrum officia necessitatibus laboriosam! Vel animi asperiores, dolores minus id libero, accusamus odio nobis veritatis molestiae soluta!"
+            color="#000000"
+            alignment="left"
+          />
         ),
         cursor: 'crosshair',
         // style: 'eraserIcon',

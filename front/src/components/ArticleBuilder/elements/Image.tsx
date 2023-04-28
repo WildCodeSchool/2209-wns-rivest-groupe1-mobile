@@ -2,18 +2,21 @@ import { useMemo } from 'react';
 
 interface IImage {
   dataType: 'img';
-  src?: string;
-  alt?: string;
-  width?: string;
-  height?: string;
+  src: string;
+  alt: string;
+  alignment: 'start' | 'center' | 'end';
 }
 
-const Image = ({ src, alt, width, height }: IImage) => {
+const Image = ({ src, alt, alignment }: IImage) => {
   const imageComponent = useMemo(() => {
-    return <img src={src} alt={alt} style={{ width, height }} />;
-  }, [src, alt, width, height]);
+    return <img src={src} alt={alt} />;
+  }, [src, alt]);
 
-  return <>{imageComponent}</>;
+  return (
+    <>
+      <div style={{ display: 'flex', justifyContent: alignment }}>{imageComponent}</div>
+    </>
+  );
 };
 
 export default Image;
