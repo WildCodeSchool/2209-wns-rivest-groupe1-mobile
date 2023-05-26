@@ -43,7 +43,6 @@ const start = async (): Promise<void> => {
   });
   const server = new ApolloServer({
     schema: applyMiddleware(schema, permissions),
-    // schema,
     context: ({ req }) => {
       if (
         req.headers.authorization === undefined ||
@@ -71,7 +70,6 @@ const start = async (): Promise<void> => {
       origin: ["http://localhost:3000", "https://studio.apollographql.com"],
       credentials: true,
     },
-    // plugins: [permissions],
   });
 
   try {
