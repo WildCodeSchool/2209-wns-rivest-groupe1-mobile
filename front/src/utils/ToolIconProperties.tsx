@@ -1,3 +1,4 @@
+import Button from '../components/ArticleBuilder/elements/Button';
 import { SelectedTool } from '../components/SimpleToolPicker';
 import * as icons from 'react-bootstrap-icons';
 
@@ -17,22 +18,7 @@ export const getToolIconProperties = (tool: string): ToolIconProperties => {
         name: 'PlusSquareFill',
         title: 'Bouton',
         type: 'button',
-        content: (
-          <div
-            id="b1"
-            draggable="true"
-            onDragStart={(event: React.DragEvent<HTMLDivElement>) => {
-              event.dataTransfer.setData('text', event.currentTarget.id);
-              event.dataTransfer.effectAllowed = 'copyMove';
-            }}
-            data-type="button"
-          >
-            <button className="p-2 my-2 text-white rounded bg-yeahbuddy">BOUTON</button>
-          </div>
-        ),
-
-        // style: 'arrow',
-        // position: [32, 16],
+        content: <Button title="Button" dataType="button" />,
       };
     case SelectedTool.ICON:
       return {

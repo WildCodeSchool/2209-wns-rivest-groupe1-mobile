@@ -1,11 +1,11 @@
 import { useMemo, useState } from 'react';
 import { AiFillPlusCircle } from 'react-icons/ai';
-import Section from './Section';
 import SectionStructureSelector from './SectionStructureSelector';
 import idGenerator from '../../utils/idGenerator';
 import { gql, useLazyQuery, useMutation } from '@apollo/client';
 import { useUser } from '../../contexts/UserContext';
 import { useNavigate } from 'react-router-dom';
+import { useArticleBuilder } from '../../contexts/ArticleBuilderContext';
 
 export const CREATE_ARTICLE = gql`
   mutation Mutation(
@@ -51,17 +51,13 @@ const REFETCH_ARTICLES = gql`
   }
 `;
 
-interface ISection {
-  id: string;
-  elem: JSX.Element;
-}
-
 const SectionSelector = () => {
   const { user, setLocalUser } = useUser();
-  const [isAddingSection, setIsAddingSection] = useState(false);
-  const [selectedSections, setSelectedSection] = useState<ISection[]>([]);
-  const [cellsContainerIds, setCellsContainerIds] = useState<string[]>([]);
+  const { handleSelectSectionStructure, selectedSections, cellsContainerIds } = useArticleBuilder();
+
   const [createArticle] = useMutation(CREATE_ARTICLE);
+  const [isAddingSection, setIsAddingSection] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [refetchArticles] = useLazyQuery(REFETCH_ARTICLES);
   const navigate = useNavigate();
 
@@ -76,36 +72,11 @@ const SectionSelector = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleDeleteCellsContainerId = (id: string) =>
-    setCellsContainerIds((state) => state.filter((cellsContainerId) => cellsContainerId !== id));
-
-  const handleDeleteSection = (id: string, cellsContainerId: string) => {
-    handleDeleteCellsContainerId(cellsContainerId);
-    setSelectedSection((state) => state.filter((section) => section.id !== id));
-  };
-
-  const handleSelectSectionStructure = (nb: number) => {
-    const _id = idGenerator();
-    const _cellsContainerId = idGenerator();
-    setCellsContainerIds((state) => [...state, _cellsContainerId]);
-    setSelectedSection((state) => {
-      return [
-        ...state,
-        {
-          id: _id,
-          elem: (
-            <Section
-              nb={nb}
-              id={_id}
-              key={_id}
-              handleDeleteSection={handleDeleteSection}
-              cellsContainerId={_cellsContainerId}
-            />
-          ),
-        },
-      ];
-    });
-  };
+  /**
+   * Section (Lors du select, peut être mettre l'id de la section?)
+   * Dans cette section je veux récupérer la cell qui contient le component a modifier
+   * Une fois que j'ai cette cell, je remplace le composant par celui modifier
+   */
 
   const handleRegister = async () => {
     const _cellsContainerId = [...cellsContainerIds];
@@ -139,30 +110,30 @@ const SectionSelector = () => {
     <>
       {selectedSections.map((e) => e.elem)}
 
-      <div className="border-2 border-dashed border-gray-400 p-10 flex items-center justify-center mt-10">
+      <div className="flex items-center justify-center p-10 mt-10 border-2 border-gray-400 border-dashed">
         {!isAddingSection ? (
           <AiFillPlusCircle
-            className="h-12 w-12 cursor-pointer text-yeahbuddy"
+            className="w-12 h-12 cursor-pointer text-yeahbuddy"
             onClick={() => setIsAddingSection(true)}
           />
         ) : (
-          <div className="w-full fles flex-col">
+          <div className="flex-col w-full fles">
             <div className="text-center">
               <p>Veuillez sélectionner une structure</p>
             </div>
-            <div className="flex gap-x-5 items-center justify-center my-6">
+            <div className="flex items-center justify-center my-6 gap-x-5">
               {sectionStructureSelectors}
             </div>
             <div className="flex justify-center gap-x-10">
               <button
-                className="p-3 bg-red-500 rounded hover:bg-red-600 cursor-pointer text-white"
+                className="p-3 text-white bg-red-500 rounded cursor-pointer hover:bg-red-600"
                 onClick={() => setIsAddingSection(false)}
               >
                 Annuler
               </button>
               <button
                 onClick={() => handleRegister()}
-                className="p-3 bg-green-600 rounded hover:bg-green-700 cursor-pointer text-white"
+                className="p-3 text-white bg-green-600 rounded cursor-pointer hover:bg-green-700"
               >
                 Enregistrer
               </button>

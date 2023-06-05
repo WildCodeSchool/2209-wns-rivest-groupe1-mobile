@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { ArticleBuilderContext } from '../../contexts/ArticleBuilderContext';
+import ButtonEditor from './editorTools/ButtonEditor';
 
 interface IEditContainer {
   selectedElement: ArticleBuilderContext['selectedElement'];
@@ -7,9 +8,9 @@ interface IEditContainer {
 
 export const EditContainer = ({ selectedElement }: IEditContainer) => {
   const editTools = useMemo(() => {
-    switch (selectedElement.cell.props['data-type']) {
+    switch (selectedElement.cell.props.dataType) {
       case 'button':
-        return <div>button</div>;
+        return <ButtonEditor dataElement={selectedElement.cell.props} />;
       case 'icon':
         return <div>icon</div>;
       case 'img':
