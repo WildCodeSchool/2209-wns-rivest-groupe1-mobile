@@ -125,11 +125,15 @@ function Registration() {
           </label>
           <div className="registration-separator"></div>
           <label className="password-container">
-            <p>Password</p>
+            <p style={{ display: 'inline' }}>Password</p>{' '}
+            {password !== '' && password.length < 6 ? (
+              <span style={{ color: 'red' }}>Please choose a longer password</span>
+            ) : null}
             <div className="password-input-container">
               <div className="registration-icon-lock">
                 <AiOutlineLock />
               </div>
+
               <input
                 type="password"
                 placeholder="Type your password"
@@ -146,7 +150,7 @@ function Registration() {
         <button
           className="registration-btn"
           onClick={() => {
-            createUser();
+            if (password !== '' && password.length < 3) createUser();
           }}
         >
           REGISTRATION

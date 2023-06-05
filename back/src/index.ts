@@ -3,7 +3,7 @@ import * as dotenv from "dotenv";
 import jwt from "jsonwebtoken";
 import { ApolloServer } from "apollo-server";
 import { buildSchema } from "type-graphql";
-import { UserResolver } from "./resolver/userResolver";
+import { UserResolver, permissions } from "./resolver/userResolver";
 import dataSource from "./utils";
 import { ImageResolver } from "./resolver/imageResolver";
 import { CategoryResolver } from "./resolver/categoryResolver";
@@ -11,7 +11,7 @@ import { BlogResolver } from "./resolver/blogResolver";
 import { ArticleResolver } from "./resolver/articleResolver";
 import { CommentResolver } from "./resolver/commentResolver";
 import { TagResolver } from "./resolver/tagResolver";
-import { AdminResolver } from "./resolver/adminResolver";
+import { applyMiddleware } from "graphql-middleware";
 
 dotenv.config();
 
@@ -31,7 +31,6 @@ const start = async (): Promise<void> => {
       TagResolver,
     ],
     authChecker: ({ context }, roles) => {
-
       // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
 
       if (!context.user === undefined) {
@@ -44,7 +43,7 @@ const start = async (): Promise<void> => {
     },
   });
   const server = new ApolloServer({
-    schema,
+    schema: applyMiddleware(schema, permissions),
     context: ({ req }) => {
       if (
         req.headers.authorization === undefined ||
