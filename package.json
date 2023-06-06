@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/Sttayllah/WCS-monorepo/issues"
   },
-  "homepage": "https://github.com/Sttayllah/WCS-monorepo#readme"
+  "homepage": "https://github.com/Sttayllah/WCS-monorepo#readme",
+  "dependencies": {
+    "class-validator": "^0.14.0"
+  }
 }
