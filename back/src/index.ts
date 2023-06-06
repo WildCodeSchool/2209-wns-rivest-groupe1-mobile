@@ -3,7 +3,7 @@ import * as dotenv from "dotenv";
 import jwt from "jsonwebtoken";
 import { ApolloServer } from "apollo-server";
 import { buildSchema } from "type-graphql";
-import { UserResolver, permissions } from "./resolver/userResolver";
+import { UserResolver } from "./resolver/userResolver";
 import dataSource from "./utils";
 import { ImageResolver } from "./resolver/imageResolver";
 import { CategoryResolver } from "./resolver/categoryResolver";
@@ -11,7 +11,6 @@ import { BlogResolver } from "./resolver/blogResolver";
 import { ArticleResolver } from "./resolver/articleResolver";
 import { CommentResolver } from "./resolver/commentResolver";
 import { TagResolver } from "./resolver/tagResolver";
-import { applyMiddleware } from "graphql-middleware";
 
 dotenv.config();
 
@@ -22,7 +21,6 @@ const start = async (): Promise<void> => {
   const schema = await buildSchema({
     resolvers: [
       UserResolver,
-      // AdminResolver,
       ImageResolver,
       CategoryResolver,
       BlogResolver,
@@ -32,7 +30,6 @@ const start = async (): Promise<void> => {
     ],
     authChecker: ({ context }, roles) => {
       // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-
       if (!context.user === undefined) {
         return false;
       } else if (roles?.length === 0 || roles.includes(context.user.role)) {
@@ -43,7 +40,7 @@ const start = async (): Promise<void> => {
     },
   });
   const server = new ApolloServer({
-    schema: applyMiddleware(schema, permissions),
+    schema,
     context: ({ req }) => {
       if (
         req.headers.authorization === undefined ||
