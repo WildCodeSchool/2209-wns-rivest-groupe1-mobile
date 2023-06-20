@@ -15,21 +15,40 @@ export const GET_TOKEN = gql`
   }
 `;
 
+// const CREATE_USER = gql`
+//   mutation Mutation(
+//     $password: String!
+//     $email: String!
+//     $pseudo: String!
+//     $avatar: String!
+//     $description: String!
+//   ) {
+//     createUser(
+//       pseudo: $pseudo
+//       password: $password
+//       email: $email
+//       avatar: $avatar
+//       description: $description
+//     ) {
+//       email
+//       pseudo
+//       description
+//       avatar
+//     }
+//   }
+// `;
+
+type CreateUserInput = {
+  email: String;
+  password: String;
+  pseudo: String;
+  avatar: String;
+  description: String;
+};
+
 const CREATE_USER = gql`
-  mutation Mutation(
-    $password: String!
-    $email: String!
-    $pseudo: String!
-    $avatar: String!
-    $description: String!
-  ) {
-    createUser(
-      pseudo: $pseudo
-      password: $password
-      email: $email
-      avatar: $avatar
-      description: $description
-    ) {
+  mutation CreateUser($data: CreateUserInput!) {
+    createUser(data: $data) {
       email
       pseudo
       description
@@ -79,11 +98,13 @@ function Registration() {
 
   const [createUser] = useMutation(CREATE_USER, {
     variables: {
-      email: email,
-      password: password,
-      pseudo: pseudo,
-      avatar: 'avatar',
-      description: 'Description',
+      data: {
+        email: email,
+        password: password,
+        pseudo: pseudo,
+        avatar: 'avatar',
+        description: 'Description',
+      },
     },
     onCompleted: () => loadToken(),
     onError(error) {
@@ -126,7 +147,7 @@ function Registration() {
           <div className="registration-separator"></div>
           <label className="password-container">
             <p style={{ display: 'inline' }}>Password</p>{' '}
-            {password !== '' && password.length < 6 ? (
+            {password.length <= 6 ? (
               <span style={{ color: 'red' }}>Please choose a longer password</span>
             ) : null}
             <div className="password-input-container">
@@ -150,7 +171,7 @@ function Registration() {
         <button
           className="registration-btn"
           onClick={() => {
-            if (password !== '' && password.length < 3) createUser();
+            if (password !== '' && password.length < 6) createUser();
           }}
         >
           REGISTRATION
