@@ -16,34 +16,34 @@ import { Blog } from "../entity/blog";
 import { User } from "../entity/user";
 import { IsEmail, Matches, MinLength } from "class-validator";
 
-@InputType({ description: "create new user" })
-class CreateUserInput implements Partial<User> {
-  @Field()
-  @IsEmail({}, { message: "Invalid email format" })
-  email: string;
+// @InputType({ description: "create new user" })
+// class CreateUserInput implements Partial<User> {
+//   @Field()
+//   @IsEmail({}, { message: "Invalid email format" })
+//   email: string;
 
-  @Field()
-  @MinLength(6, { message: "Password must be at least 6 characters long" })
-  password: string;
+//   @Field()
+//   @MinLength(6, { message: "Password must be at least 6 characters long" })
+//   password: string;
 
-  @Field()
-  @Matches(/^[a-zA-Z0-9]+$/, {
-    message: "Pseudo must contain only letters and numbers",
-  })
-  pseudo: string;
+//   @Field()
+//   @Matches(/^[a-zA-Z0-9]+$/, {
+//     message: "Pseudo must contain only letters and numbers",
+//   })
+//   pseudo: string;
 
-  @Field({ nullable: true })
-  @Matches(/^[a-zA-Z0-9\s]*$/, {
-    message: "Description must contain only letters, numbers, and spaces",
-  })
-  description?: string;
+//   @Field({ nullable: true })
+//   @Matches(/^[a-zA-Z0-9\s]*$/, {
+//     message: "Description must contain only letters, numbers, and spaces",
+//   })
+//   description?: string;
 
-  @Field({ nullable: true })
-  @Matches(/^[a-zA-Z0-9]+$/, {
-    message: "Avatar must contain only letters and numbers",
-  })
-  avatar?: string;
-}
+//   @Field({ nullable: true })
+//   @Matches(/^[a-zA-Z0-9]+$/, {
+//     message: "Avatar must contain only letters and numbers",
+//   })
+//   avatar?: string;
+// }
 
 @InputType({ description: "update user data" })
 class UpdateUserInput implements Partial<User> {
@@ -130,9 +130,14 @@ export class UserResolver {
 
   @Mutation(() => User)
   async createUser(
-    @Arg("data") createUserParams: CreateUserInput
+    // @Arg("data") createUserParams: CreateUserInput
+    @Arg("email") email: string,
+    @Arg("password") password: string,
+    @Arg("pseudo") pseudo: string,
+    @Arg("description", { nullable: true }) description?: string,
+    @Arg("avatar", { nullable: true }) avatar?: string
   ): Promise<User> {
-    const { email, pseudo, avatar, password, description } = createUserParams;
+    // const { email, pseudo, avatar, password, description } = createUserParams;
     let defaultCategory = await dataSource.manager.findOne(Category, {
       where: {
         label: "diverse",
@@ -161,6 +166,8 @@ export class UserResolver {
     newUser.hashedPassword = await argon2.hash(password);
     newUser.role = "USER";
     newUser.blog = newBlog;
+
+    console.log("===========>>", newUser);
 
     //make sure relations (blog, images) are sent as well?
     const userFromDB = await dataSource.manager.save(User, newUser);
