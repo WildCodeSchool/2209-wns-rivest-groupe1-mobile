@@ -10,40 +10,62 @@ import {
   Authorized,
 } from "type-graphql";
 import dataSource from "../utils";
-import { shield, rule } from "graphql-shield";
-import Joi from "joi";
 
 import { Category } from "../entity/category";
 import { Blog } from "../entity/blog";
 import { User } from "../entity/user";
+import { IsEmail, Matches, MinLength } from "class-validator";
 
-@InputType({ description: "create new user" })
-class CreateUserInput implements Partial<User> {
-  @Field()
-  email: string;
+// @InputType({ description: "create new user" })
+// class CreateUserInput implements Partial<User> {
+//   @Field()
+//   @IsEmail({}, { message: "Invalid email format" })
+//   email: string;
 
-  @Field()
-  password: string;
+//   @Field()
+//   @MinLength(6, { message: "Password must be at least 6 characters long" })
+//   password: string;
 
-  @Field()
-  pseudo: string;
+//   @Field()
+//   @Matches(/^[a-zA-Z0-9]+$/, {
+//     message: "Pseudo must contain only letters and numbers",
+//   })
+//   pseudo: string;
 
-  @Field({ nullable: true })
-  description?: string;
+//   @Field({ nullable: true })
+//   @Matches(/^[a-zA-Z0-9\s]*$/, {
+//     message: "Description must contain only letters, numbers, and spaces",
+//   })
+//   description?: string;
 
-  @Field({ nullable: true })
-  avatar?: string;
-}
+//   @Field({ nullable: true })
+//   @Matches(/^[a-zA-Z0-9]+$/, {
+//     message: "Avatar must contain only letters and numbers",
+//   })
+//   avatar?: string;
+// }
+
 @InputType({ description: "update user data" })
 class UpdateUserInput implements Partial<User> {
   @Field({ nullable: true })
+  @Matches(/^[a-zA-Z0-9]+$/, {
+    message: "Pseudo must contain only letters and numbers",
+  })
   pseudo?: string;
 
   @Field({ nullable: true })
+  @Matches(/^[a-zA-Z0-9\s]*$/, {
+    message: "Description must contain only letters, numbers, and spaces",
+  })
   description?: string;
 
   @Field({ nullable: true })
+  @Matches(/^[a-zA-Z0-9]+$/, {
+    message: "Avatar must contain only letters and numbers",
+  })
   avatar?: string;
+
+  //update password? or in its own mutation
 }
 
 @Resolver(User)
@@ -106,13 +128,16 @@ export class UserResolver {
     }
   }
 
-  @Authorized()
   @Mutation(() => User)
   async createUser(
-    @Arg("data") createUserParams: CreateUserInput
+    // @Arg("data") createUserParams: CreateUserInput
+    @Arg("email") email: string,
+    @Arg("password") password: string,
+    @Arg("pseudo") pseudo: string,
+    @Arg("description", { nullable: true }) description?: string,
+    @Arg("avatar", { nullable: true }) avatar?: string
   ): Promise<User> {
-    // console.log("inside mutation");
-    const { email, pseudo, avatar, password, description } = createUserParams;
+    // const { email, pseudo, avatar, password, description } = createUserParams;
     let defaultCategory = await dataSource.manager.findOne(Category, {
       where: {
         label: "diverse",
@@ -141,6 +166,8 @@ export class UserResolver {
     newUser.hashedPassword = await argon2.hash(password);
     newUser.role = "USER";
     newUser.blog = newBlog;
+
+    console.log("===========>>", newUser);
 
     //make sure relations (blog, images) are sent as well?
     const userFromDB = await dataSource.manager.save(User, newUser);
@@ -216,36 +243,3 @@ export class UserResolver {
   //   }
   // }
 }
-
-const signUpInputSchema = Joi.object({
-  pseudo: Joi.string().alphanum().min(3).max(30).required(),
-  email: Joi.string().email().required(),
-  password: Joi.string().min(6).max(30).required(),
-  description: Joi.string(),
-  avatar: Joi.string(),
-});
-
-const signUpRule = rule({ cache: "contextual" })(
-  async (
-    parent,
-    { data }: { data: CreateUserInput },
-    context
-  ): Promise<boolean> => {
-    const { error } = signUpInputSchema.validate(data, { abortEarly: false });
-
-    if (error) {
-      console.log("ERROR", error);
-      const errors = error.details.map((detail) => detail.message);
-      context.validationErrors = errors;
-      return false;
-    }
-
-    return true;
-  }
-);
-
-export const permissions = shield({
-  Mutation: {
-    createUser: signUpRule,
-  },
-});

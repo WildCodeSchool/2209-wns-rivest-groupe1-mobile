@@ -38,6 +38,30 @@ const CREATE_USER = gql`
     }
   }
 `;
+
+// const CREATE_USER = gql`
+//   mutation CreateUser($data: {
+//     $password: String!
+//     $email: String!
+//     $pseudo: String!
+//     $avatar: String!
+//     $description: String!
+//   }) {
+//     createUser(data: {
+//       $password: String!
+//       $email: String!
+//       $pseudo: String!
+//       $avatar: String!
+//       $description: String!
+//     }) {
+//       email
+//       pseudo
+//       description
+//       avatar
+//     }
+//   }
+// `;
+
 const randomEmail =
   "user" + Math.floor(Math.random() * 100).toString() + "@mail.com";
 
@@ -53,6 +77,7 @@ describe("User resolver", () => {
         description: "description TEST BACKEND",
       },
     });
+    console.log("============>", res);
 
     expect(res.data?.createUser).toEqual({
       __typename: "User",
