@@ -15,40 +15,21 @@ export const GET_TOKEN = gql`
   }
 `;
 
-// const CREATE_USER = gql`
-//   mutation Mutation(
-//     $password: String!
-//     $email: String!
-//     $pseudo: String!
-//     $avatar: String!
-//     $description: String!
-//   ) {
-//     createUser(
-//       pseudo: $pseudo
-//       password: $password
-//       email: $email
-//       avatar: $avatar
-//       description: $description
-//     ) {
-//       email
-//       pseudo
-//       description
-//       avatar
-//     }
-//   }
-// `;
-
-type CreateUserInput = {
-  email: String;
-  password: String;
-  pseudo: String;
-  avatar: String;
-  description: String;
-};
-
 const CREATE_USER = gql`
-  mutation CreateUser($data: CreateUserInput!) {
-    createUser(data: $data) {
+  mutation Mutation(
+    $password: String!
+    $email: String!
+    $pseudo: String!
+    $avatar: String!
+    $description: String!
+  ) {
+    createUser(
+      pseudo: $pseudo
+      password: $password
+      email: $email
+      avatar: $avatar
+      description: $description
+    ) {
       email
       pseudo
       description
@@ -56,6 +37,25 @@ const CREATE_USER = gql`
     }
   }
 `;
+
+// type CreateUserInput = {
+//   email: String;
+//   password: String;
+//   pseudo: String;
+//   avatar: String;
+//   description: String;
+// };
+
+// const CREATE_USER = gql`
+//   mutation CreateUser($data: CreateUserInput!) {
+//     createUser(data: $data) {
+//       email
+//       pseudo
+//       description
+//       avatar
+//     }
+//   }
+// `;
 
 const GET_BLOG_ID = gql`
   query Query($email: String!) {
@@ -98,13 +98,11 @@ function Registration() {
 
   const [createUser] = useMutation(CREATE_USER, {
     variables: {
-      data: {
-        email: email,
-        password: password,
-        pseudo: pseudo,
-        avatar: 'avatar',
-        description: 'Description',
-      },
+      email: email,
+      password: password,
+      pseudo: pseudo,
+      avatar: 'avatar',
+      description: 'Description',
     },
     onCompleted: () => loadToken(),
     onError(error) {
@@ -171,7 +169,8 @@ function Registration() {
         <button
           className="registration-btn"
           onClick={() => {
-            if (password !== '' && password.length < 6) createUser();
+            createUser();
+            // if (password !== '' && password.length < 6) createUser();
           }}
         >
           REGISTRATION
