@@ -3,6 +3,7 @@ import {
   Authorized,
   Field,
   InputType,
+  Query,
   Mutation,
   Resolver,
 } from "type-graphql";
@@ -27,6 +28,42 @@ class UpdateArticleInput implements Partial<Article> {
 
 @Resolver(ArticleResolver)
 export class ArticleResolver {
+  @Authorized()
+  @Query(() => [Article])
+  async getAllArticles(): Promise<Article[]> {
+    const articleRepository = dataSource.manager.getRepository(Article);
+    const articles = await articleRepository.find({
+      order: { publishedAt: "DESC" },
+      relations: {
+        tags: true,
+        blog: {
+          user: true,
+        },
+      },
+    });
+    return articles;
+  }
+
+  @Authorized()
+  @Query(() => Article)
+  async getOneArticle(@Arg("id") id: number): Promise<Article> {
+    const article = await dataSource.manager.findOneOrFail(Article, {
+      where: { id },
+      relations: {
+        comments: true,
+        tags: true,
+        blog: {
+          user: true,
+        },
+      },
+    });
+    if (!article) {
+      throw new Error("Article not found");
+    }
+
+    return article;
+  }
+
   @Authorized()
   @Mutation(() => Article)
   async createArticle(

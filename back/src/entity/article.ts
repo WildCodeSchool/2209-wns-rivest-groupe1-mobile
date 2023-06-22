@@ -45,14 +45,15 @@ export class Article {
   @Column()
   isPublished: boolean;
 
+  @Field(() => Blog)
   @ManyToOne(() => Blog, (blog) => blog.articles)
   blog: Blog;
 
-  @Field(() => [Comment])
+  @Field(() => [Comment], { nullable: true })
   @OneToMany(() => Comment, (comment) => comment.article)
   public comments: Comment[];
 
-  @Field(() => [Tag])
+  @Field(() => [Tag], { nullable: true })
   @ManyToMany(() => Tag, {
     cascade: true,
   })
