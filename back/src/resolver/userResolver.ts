@@ -107,6 +107,28 @@ export class UserResolver {
     }
   }
 
+  @Query(() => [User])
+  async getAllUsers(): Promise<User[]> {
+    try {
+      const userRepository = dataSource.manager.getRepository(User);
+      const users = await userRepository
+        .createQueryBuilder("user")
+        .select([
+          "user.id",
+          "user.email",
+          "user.pseudo",
+          "user.description",
+          "user.avatar",
+        ])
+        .orderBy("user.id", "DESC")
+        .getMany();
+      return users;
+    } catch (err) {
+      console.log(err);
+      throw new Error("Invalid query");
+    }
+  }
+
   @Authorized()
   @Query(() => User)
   async getOneUser(@Arg("email") email: string): Promise<User> {

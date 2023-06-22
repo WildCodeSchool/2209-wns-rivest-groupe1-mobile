@@ -44,7 +44,7 @@ export class User {
   public images?: Image[];
 
   @Field(() => Blog)
-  @OneToOne(() => Blog, {
+  @OneToOne(() => Blog, (blog) => blog.user, {
     cascade: true,
     onDelete: "CASCADE",
   })
